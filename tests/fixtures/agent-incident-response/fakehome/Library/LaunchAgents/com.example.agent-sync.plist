@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FIXTURE ONLY -->
+<plist version="1.0"><dict><key>Label</key><string>com.example.agent-sync</string><key>ProgramArguments</key><array><string>/usr/bin/true</string></array></dict></plist>

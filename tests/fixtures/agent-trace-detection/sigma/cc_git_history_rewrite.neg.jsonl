@@ -1,0 +1,2 @@
+{"event.name": "tool_result", "tool_name": "Bash", "session.id": "s1", "tool_parameters": "{\"bash_command\": \"git push origin feature/login\"}"}
+{"event.name": "tool_result", "tool_name": "Bash", "session.id": "s1", "tool_parameters": "{\"bash_command\": \"git push --set-upstream origin fix-foo\"}"}

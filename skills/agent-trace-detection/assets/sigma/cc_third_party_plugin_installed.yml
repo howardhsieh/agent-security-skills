@@ -1,0 +1,25 @@
+title: Claude Code plugin installed from a non-official marketplace
+id: 122cd908-c4a3-42d9-bb71-befc8fe60a51
+status: experimental
+description: A plugin was installed from a marketplace other than the official one. Third-party plugins can ship hooks, MCP
+  servers and executables; confirm it was reviewed and pinned.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- atlas.aml-t0010.005
+- owasp.asi04
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: plugin_installed
+    marketplace.is_official: 'false'
+  condition: selection
+falsepositives:
+- Internal organization marketplaces
+- Plugins reviewed with skill-supply-chain-audit
+level: low

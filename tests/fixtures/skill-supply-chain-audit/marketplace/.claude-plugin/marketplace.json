@@ -1,0 +1,10 @@
+{
+  "name": "fixture-market",
+  "owner": {"name": "Fixture"},
+  "plugins": [
+    {"name": "unpinned-remote", "source": {"source": "github", "repo": "example/unpinned"}},
+    {"name": "pinned-remote", "source": {"source": "github", "repo": "example/pinned", "sha": "0123456789abcdef0123456789abcdef01234567"}},
+    {"name": "npm-source", "source": {"source": "npm", "package": "example-plugin"}},
+    {"name": "local", "source": "./plugins/local"}
+  ]
+}

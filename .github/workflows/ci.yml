@@ -1,0 +1,133 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUTF8: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  validate:
+    name: Validate skills
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          # skills-ref requires Python 3.11+.
+          python-version: "3.12"
+
+      - name: Validate skills and marketplace (stdlib only)
+        run: python tools/validate_skills.py --no-pyyaml
+
+      - name: Validate skills and marketplace (with PyYAML)
+        run: |
+          python -m pip install pyyaml
+          python tools/validate_skills.py
+
+      # skills-ref is the Agent Skills reference validator. The PyPI package
+      # installs its CLI as `agentskills` (not `skills-ref`). Verified locally
+      # with skills-ref 0.1.1: `agentskills validate <dir>` exits 0 for a valid
+      # skill and 1 otherwise, and takes one directory per call.
+      - name: Validate with skills-ref (agentskills)
+        continue-on-error: false
+        run: |
+          python -m pip install skills-ref
+          status=0
+          for dir in skills/*/; do
+            agentskills validate "${dir%/}" || status=1
+          done
+          exit $status
+
+  test:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # ubuntu-24.04 is pinned because Python 3.9 builds are not published for newer runner images.
+        os: [ubuntu-24.04, windows-latest, macos-latest]
+        python-version: ["3.9", "3.12"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.9"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: python -m pip install pytest pyyaml
+
+      # Optional: the agent-trace-detection tests cross-check rules against the
+      # tracesig reference engine and skip when it is not installed.
+      - name: Install tracesig (optional)
+        continue-on-error: true
+        run: python -m pip install "git+https://github.com/howardhsieh/tracesig@773e019a4fd84a6a8ca17acb1ba4b51076abe82c"
+
+      - name: Run tests
+        run: python -m pytest -q
+
+  self-audit:
+    name: Self-audit with skill-supply-chain-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Scans this repo with its own supply-chain auditor. Detection patterns and
+      # fixtures look suspicious on purpose; reviewed findings are listed in
+      # audit-baseline.json. Anything new at high or above fails the job.
+      - name: Scan skills/ against the accepted baseline
+        run: python skills/skill-supply-chain-audit/scripts/audit_skill.py scan skills --baseline audit-baseline.json --fail-on high
+
+  sigma:
+    name: Validate detection rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: python -m pip install pyyaml
+
+      - name: Validate Sigma-style rules
+        shell: bash
+        run: |
+          shopt -s nullglob
+          rules=(skills/agent-trace-detection/assets/sigma/*.yml)
+          if [ ${#rules[@]} -eq 0 ]; then
+            echo "::error::no rules found under skills/agent-trace-detection/assets/sigma/"
+            exit 1
+          fi
+          python skills/agent-trace-detection/scripts/sigma_check.py validate "${rules[@]}"

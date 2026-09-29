@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "plugins": {
+    "pdf-tools@example-market": [
+      {
+        "scope": "user",
+        "installPath": "~/.claude/plugins/cache/example-market/pdf-tools/1.0.0",
+        "version": "1.0.0"
+      }
+    ]
+  }
+}

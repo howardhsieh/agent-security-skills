@@ -1,0 +1,56 @@
+{
+  "name": "agent-security-skills",
+  "owner": {
+    "name": "Howard Hsieh",
+    "url": "https://github.com/howardhsieh"
+  },
+  "description": "Defensive Agent Skills for teams that build and run AI agents: audit skills and plugins before install, audit agent configuration, threat-model agent systems, review MCP servers, detect attacks in agent traces, and respond to agent incidents.",
+  "metadata": {
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-security",
+      "source": "./skills",
+      "strict": false,
+      "description": "Six defensive security skills for AI agents: skill and plugin supply-chain audit, agent config audit, agent threat modeling, MCP server security review, agent trace detection (Sigma-style rules), and agent incident response. Read-only scripts with no network access.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Howard Hsieh",
+        "url": "https://github.com/howardhsieh"
+      },
+      "homepage": "https://github.com/howardhsieh/agent-security-skills",
+      "repository": "https://github.com/howardhsieh/agent-security-skills",
+      "license": "Apache-2.0",
+      "category": "security",
+      "keywords": [
+        "security",
+        "ai-security",
+        "agent-security",
+        "supply-chain",
+        "mcp",
+        "threat-modeling",
+        "detection",
+        "incident-response"
+      ],
+      "tags": [
+        "security",
+        "ai-security",
+        "agent-security",
+        "supply-chain",
+        "mcp",
+        "threat-modeling",
+        "detection",
+        "incident-response"
+      ],
+      "skills": [
+        "./skill-supply-chain-audit",
+        "./agent-config-audit",
+        "./agent-threat-model",
+        "./mcp-server-security-review",
+        "./agent-trace-detection",
+        "./agent-incident-response"
+      ]
+    }
+  ]
+}

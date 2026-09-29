@@ -1,0 +1,3 @@
+verbose upload log (fixture)
+POST https://collector.example.invalid/upload
+auth: token ghp_FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE

@@ -1,0 +1,20 @@
+id: CC-PRIV-001
+title: Agent edited its own configuration or instructions (Claude Code)
+status: experimental
+severity: high
+category: privilege
+description: >
+  The agent wrote to agent configuration or standing instructions: Claude Code
+  settings, .mcp.json, Codex or Cursor config, CLAUDE.md or AGENTS.md, or a
+  shell profile. Changing its own permissions, hooks or instructions is how a
+  hijacked agent persists or escalates.
+tags:
+  - atlas-aml-t0081
+  - owasp-asi03
+  - owasp-asi06
+references:
+  - https://github.com/howardhsieh/agent-security-skills
+detection:
+  selection:
+    tool|matches: "^(Edit|Write|MultiEdit|NotebookEdit)$"
+    args|matches: "(\\.claude/settings(\\.local)?\\.json|\\.mcp\\.json|\\.claude\\.json|\\.codex/config\\.toml|\\.cursor/mcp\\.json|CLAUDE\\.md|AGENTS\\.md|\\.bashrc|\\.zshrc|\\.profile)"

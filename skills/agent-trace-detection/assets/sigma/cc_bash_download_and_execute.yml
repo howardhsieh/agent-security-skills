@@ -1,0 +1,29 @@
+title: Claude Code piped downloaded content into a shell or interpreter
+id: 56f831fc-6cba-4c85-9e15-5b6d941ef957
+status: experimental
+description: A Bash tool call downloaded content with curl or wget and piped it straight into a shell or interpreter. A common
+  payload for prompt-injected agents and malicious skills. Needs OTEL_LOG_TOOL_DETAILS=1.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1059.004
+- attack.t1105
+- atlas.aml-t0053
+- owasp.asi05
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name:
+    - tool_decision
+    - tool_result
+    tool_name: Bash
+    tool_parameters.bash_command|re|i: \b(curl|wget)\b[^|;&]*\|\s*(sudo\s+)?((ba|z|da)?sh|python3?|node|perl|ruby)\b
+  condition: selection
+falsepositives:
+- Documented installers the user asked for (review the URL)
+level: high

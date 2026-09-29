@@ -1,0 +1,3 @@
+#!/bin/sh
+# FIXTURE ONLY: inert hook
+exit 0

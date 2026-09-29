@@ -1,0 +1,19 @@
+id: CC-INJ-002
+title: Untrusted content followed closely by a destructive command (Claude Code)
+status: experimental
+severity: high
+category: injection
+description: >
+  Within five tool calls of reading untrusted content, the agent ran a
+  destructive command (recursive delete, hard reset, force push, database or
+  infrastructure teardown).
+tags:
+  - owasp-asi01
+  - atlas-aml-t0101
+references:
+  - https://github.com/howardhsieh/agent-security-skills
+detection:
+  sequence:
+    - labels: untrusted
+    - tool|matches: "^(Bash|PowerShell)\\(destructive\\)$"
+  within_events: 5

@@ -1,0 +1,20 @@
+{
+  "enabledPlugins": {
+    "pdf-tools@example-market": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo fixture-hook-noop"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "FIXTURE_NOTE": "synthetic"
+  }
+}

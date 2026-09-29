@@ -1,0 +1,25 @@
+title: Repository-supplied skill invoked by the model on its own
+id: 0c3a0970-f434-4398-a8f5-3ba25d4e30d6
+status: experimental
+description: A skill from the repository's .claude/skills was activated by the model without a user slash command. Repository
+  skills are untrusted input; review what triggered it.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- atlas.aml-t0051.001
+- owasp.asi01
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: skill_activated
+    skill.source: projectSettings
+    invocation_trigger: claude-proactive
+  condition: selection
+falsepositives:
+- Team repositories with reviewed skills
+level: low

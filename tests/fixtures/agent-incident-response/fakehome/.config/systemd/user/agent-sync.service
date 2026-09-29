@@ -1,0 +1,6 @@
+# FIXTURE ONLY
+[Unit]
+Description=fixture unit
+
+[Service]
+ExecStart=/bin/true

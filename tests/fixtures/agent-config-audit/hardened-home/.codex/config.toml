@@ -1,0 +1,23 @@
+# Inert test fixture: hardened Codex settings.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+web_search = "cached"
+
+[sandbox_workspace_write]
+network_access = false
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false
+
+[mcp_servers.remote]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "EXAMPLE_MCP_TOKEN"
+
+[mcp_servers.local]
+command = "npx"
+args = ["-y", "@example/docs-mcp@2.3.1"]
+env_vars = ["EXAMPLE_API_KEY"]
+
+[projects."/work/app"]
+trust_level = "untrusted"

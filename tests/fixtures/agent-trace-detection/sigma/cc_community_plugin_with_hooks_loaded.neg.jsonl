@@ -1,0 +1,2 @@
+{"event.name": "plugin_loaded", "session.id": "s1", "has_hooks": true, "plugin.scope": "official"}
+{"event.name": "plugin_loaded", "session.id": "s1", "has_hooks": false, "plugin.scope": "community"}

@@ -1,0 +1,1 @@
+{"event.name": "permission_mode_changed", "session.id": "s1", "from_mode": "default", "to_mode": "bypassPermissions", "trigger": "shift_tab"}

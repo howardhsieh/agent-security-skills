@@ -1,0 +1,79 @@
+name: Skill, check or rule proposal
+description: Propose a new skill, a new audit check, a detection rule, or a change to an existing one.
+title: "[proposal] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository accepts **defensive** work only: audit, hardening, detection and response.
+        Proposals for offensive tooling, working exploits or payload collections will be closed.
+        See CONTRIBUTING.md for the ground rules every skill and script follows.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you proposing?
+      options:
+        - New skill
+        - New check in an audit script
+        - New detection rule (agent-trace-detection)
+        - Change to an existing skill, check or rule
+    validations:
+      required: true
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Target skill (if any)
+      options:
+        - skill-supply-chain-audit
+        - agent-config-audit
+        - agent-threat-model
+        - mcp-server-security-review
+        - agent-trace-detection
+        - agent-incident-response
+        - None (new skill)
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or threat
+      description: What risk does this address, and who runs into it? Link incidents or research where you can.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: For a check, include the condition, a suggested severity and the fix text. For a rule, the event fields and logic.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Positive and negative examples
+      description: One inert input that should match and a similar benign one that should not. Use example.invalid domains and tokens marked FAKE.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: false-positives
+    attributes:
+      label: Likely false positives and evasions
+      description: When would this fire on benign activity, and how could an attacker avoid it?
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources and framework mappings
+      description: Cite vendor docs, specs or research, and framework IDs with their edition, e.g. ASI04 (Agentic Top 10 2026), AML.T0110.000 (ATLAS v2026.09), LLM01:2025.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This proposal is defensive only and includes no working exploit or payload.
+          required: true
+        - label: Any script change keeps to read-only, no network, Python 3.9+ standard library only.
+          required: true

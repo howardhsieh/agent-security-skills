@@ -1,0 +1,560 @@
+{
+  "version": 1,
+  "tool": "audit_skill",
+  "generated_at": "2026-09-29T22:02:57Z",
+  "accepted": [
+    {
+      "id": "SKL013",
+      "path": "agent-config-audit/SKILL.md",
+      "line_sha256": "383c5d5117536ad0042324fc8ee8cc23e5595965d8ffba188f962358570c161f",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-config-audit/SKILL.md:101",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-config-audit/SKILL.md",
+      "line_sha256": "3ec290cc4642e25448c751f9a328132b9c40e4b5549d0ee6282fddac5d4e4fb0",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-config-audit/SKILL.md:112",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-config-audit/references/claude-code-hardening.md",
+      "line_sha256": "080e85cba5c5dfbd6b76bb3b3b803c1abbccea1cee0ab4f351ede29b8dbcdb3f",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-config-audit/references/claude-code-hardening.md:68",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-config-audit/references/codex-and-cursor-hardening.md",
+      "line_sha256": "c4d965123dee9f49445811ac7403c043fe4cec9b3ce3a77d95d45eac57da19dc",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-config-audit/references/codex-and-cursor-hardening.md:49",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "25dfe4111dab91e280cba4b3dec3d17e45f9a89c1c68c44d27c4aa315d9215ef",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:98",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "9644596a55617eacd2f190d9d9797ad64b72db20de1971c8b92944d47f56da60",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:101",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "3956d00791e5720d1426718922c2df4d6d40fc6af88e873e4e7b63ed7b6c5a53",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:104",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "5b15a65479a824627090ab4682baf2e2898abb5119a80433299434c941111375",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:225",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "5871ef03e239a2aa085a96b9a87f5d7de7091917ac28149e78d0c2445970456c",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:227",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "a475b3af5d64f97c1c410508d356aa76b3245735f4645ff1e88e7909ca873c6b",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:229",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "cb1eedb91e42e283fe60ba18b20e4488a54007fbc960a492c182b8930f132a0d",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:230",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "1ed54451b00dc23bd46a0cf45fbaf882ff2489bf5d83b744d6a0ee9000357777",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:231",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "d7072e517b005801d4f5e200c62fdc37312a284f5f3ad2491a32fff434e8192d",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:232",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "4cb73e6de17ab19be1acc89dc0546ccfe31d1680d05599e6071b8bc941b3993e",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:233",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "96828bb8288ab80c368eec88b20a2a6f0965af2fa4afdb38662a699d29d2040e",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:243",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "2d39e022384bb9d8d4dcdb843f0cb0dc115114b106e040c6ac19752a694890a8",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:247",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "7729746a958a0d119935f02ab156ad5a2745fd5fb26972fc8e3d5be7cedcc80f",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:248",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "e3c419a5833e5e0db649a29f8acb41f69e8e15cff3501169ef59d8bce34f3dad",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:453",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "2d6003d3903d9c46279685740a9d3d677077fae1371658adf57a1c361bc42162",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:943",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "29d115a644b4cef3b260a91cb8ca8d1fbc8aa9afd964865414e00bc6c25b9f1e",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:944",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "0bc08f40beafc0672070fb1d77ad92e1a8643b58e1e1ca49a6e35d0508bb002b",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:945",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "6997c2de2753a16a3f4a96a1d7e46c4356d3cca781354492d2b3da1e27d58498",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:946",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL031",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "eeacebba1b284894f4c522661a83ff47df9295ee56fdee6b85472fcdd6f281f8",
+      "title": "Script executes dynamically built code or uses a shell",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:947",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "94c235d5b1ed0d0b81b8194ceed3b66fd76e5a26cd825226c7a88b9b288e370f",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:951",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "83d1b4ef3d920109d8e56161b0a8124460cf2b0b0664507ea45d15ed01b55373",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:952",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "5ff79fe72a2bb302786d853ee6f1a7e620d1eb619b201be357461e57a10503f4",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:956",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "8e9b8826fe6b98ec5ea8485ed9b04aeca17933b5ac59a1aae187dad2a60f82bb",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:957",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "a673498f4c5763395a9680a56b8b842b0b955bbb8876d7d4d13228f4098000e1",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:958",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "c0f88b6bc1781198d51f20fb9e48f855ceb1bb3af753b38f9e51e2c15b59232f",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:963",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "47977de441289f881268ed9578b2931c265bc3ef892b5c7495608915d30f00e2",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:1098",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "ec76b34e60c3b05b78b37b6b88f9f3366a8ee498aa67f7ec2a0a99f108650e0b",
+      "title": "Script makes network calls",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:1099",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "02120753823c724982714948a2c924ebdf1c8c509570723f4e08f1542fd414ff",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:1115",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "16842e2e730fffeab963f911142b421af6e785dfbc6dce1b28935a3eb52f8ec5",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:1116",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-config-audit/scripts/audit_agent_config.py",
+      "line_sha256": "b78aa60a203ff163273495f5fcab1d2fbe15e2a84c2b4f5eba356b96c217f5c1",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-config-audit/scripts/audit_agent_config.py:1623",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL011",
+      "path": "agent-incident-response/assets/incident-report-template.md",
+      "line_sha256": "9b55bc4cc3b8f47b4562b0e38536c474388595c235522d79d00fe24532d71c2f",
+      "title": "HTML comment hidden from the rendered Markdown",
+      "location": "agent-incident-response/assets/incident-report-template.md:3",
+      "reason": "Template placeholder comment for the person filling in the report (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-incident-response/scripts/locate_agent_artifacts.py",
+      "line_sha256": "6c7570445c8913dc3cb0f8881d0c3b70eeb3a459ee130d3f34452e4ceee30650",
+      "title": "Script makes network calls",
+      "location": "agent-incident-response/scripts/locate_agent_artifacts.py:93",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL023",
+      "path": "agent-incident-response/scripts/locate_agent_artifacts.py",
+      "line_sha256": "f664c8ee42aa6ac6f102d9f6281c3c4c871bf1fa840a5c3b020d40637c3c5e60",
+      "title": "Writes to a persistence location",
+      "location": "agent-incident-response/scripts/locate_agent_artifacts.py:138",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL023",
+      "path": "agent-incident-response/scripts/locate_agent_artifacts.py",
+      "line_sha256": "88a62b2ba10464d9f7011e9545761811998c5b1e482e375c93f08ec7d1ae7363",
+      "title": "Writes to a persistence location",
+      "location": "agent-incident-response/scripts/locate_agent_artifacts.py:139",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-trace-detection/SKILL.md",
+      "line_sha256": "0f9bdeb200683fc7debba76298cad10b678b36fdf113ddc8d5cad8f41e3a8b00",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-trace-detection/SKILL.md:140",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-trace-detection/references/claude-code-telemetry.md",
+      "line_sha256": "6537dff4a96368d47c475e2d27b1e2c99c163086bfaa2a81ca1bda99fb0382fb",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-trace-detection/references/claude-code-telemetry.md:47",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "agent-trace-detection/references/claude-code-telemetry.md",
+      "line_sha256": "79d42381b5a10b70ca11fee4c73ca70effe072237fcd011714703ede7a16e4c2",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agent-trace-detection/references/claude-code-telemetry.md:62",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-trace-detection/scripts/normalize.py",
+      "line_sha256": "e70f221a82f2efd7e6743d517ec5577549da10a16509431574627f672fa6ccad",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-trace-detection/scripts/normalize.py:83",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-trace-detection/scripts/normalize.py",
+      "line_sha256": "213207db7818aa41d23e00865b96c7673f9a09c09577b14a010337c3612252ba",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-trace-detection/scripts/normalize.py:84",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "agent-trace-detection/scripts/normalize.py",
+      "line_sha256": "1b912584576bb4068c0e9922a24c58302bf480bc5e093848d3e879b3db35b46f",
+      "title": "Script references credential stores or secret variables",
+      "location": "agent-trace-detection/scripts/normalize.py:85",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-trace-detection/scripts/normalize.py",
+      "line_sha256": "e40fce42433b6ab9f5e8aad8ae8734c7eba67076bc328e5c714b9d04a284a1cd",
+      "title": "Script makes network calls",
+      "location": "agent-trace-detection/scripts/normalize.py:88",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "agent-trace-detection/scripts/normalize.py",
+      "line_sha256": "a1a2456a324bf69743d8c59d71d3ca72ecb8e9eadd7afc03257192845a6a135f",
+      "title": "Script makes network calls",
+      "location": "agent-trace-detection/scripts/normalize.py:98",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL013",
+      "path": "mcp-server-security-review/SKILL.md",
+      "line_sha256": "c41268c3e966ead2621549474537972da46fca488d945ec528a65fbf669bfde2",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "mcp-server-security-review/SKILL.md:136",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL016",
+      "path": "skill-supply-chain-audit/references/pinning-and-drift.md",
+      "line_sha256": "f4b8a70f14261ba143966deaa716637459140145d8309fd6bdcd4a49398c85d3",
+      "title": "Instructions tell the agent to install more skills or plugins",
+      "location": "skill-supply-chain-audit/references/pinning-and-drift.md:40",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL016",
+      "path": "skill-supply-chain-audit/references/pinning-and-drift.md",
+      "line_sha256": "dbcede2f0f5a0770863e5843167121042fcdc921429fc09d9994e73c9cfa6b0f",
+      "title": "Instructions tell the agent to install more skills or plugins",
+      "location": "skill-supply-chain-audit/references/pinning-and-drift.md:63",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL016",
+      "path": "skill-supply-chain-audit/references/pinning-and-drift.md",
+      "line_sha256": "72a58b70e1dfc0535bdcc42655c26113457737d7b1defc79b8afbe4157234551",
+      "title": "Instructions tell the agent to install more skills or plugins",
+      "location": "skill-supply-chain-audit/references/pinning-and-drift.md:69",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL016",
+      "path": "skill-supply-chain-audit/references/pinning-and-drift.md",
+      "line_sha256": "4b4c2da135d40361a6c433d5a3b73df97b982106d1b4302f969af44734efa20b",
+      "title": "Instructions tell the agent to install more skills or plugins",
+      "location": "skill-supply-chain-audit/references/pinning-and-drift.md:73",
+      "reason": "Explanatory text that describes a risky setting or command so the reader can recognize or avoid it; not an instruction to the agent (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "d92abe18da496c20e898e7cb313bd8f8b6a768b49177afb16d94f1f112034c3c",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:149",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "ec106106b93eea764ba44ccbe6b95be4b009427671137dc550712cda84735973",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:150",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL031",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "ec106106b93eea764ba44ccbe6b95be4b009427671137dc550712cda84735973",
+      "title": "Script executes dynamically built code or uses a shell",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:150",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "eecc100feb39a0bb728d743436c4ace75ceabc069586fe058e4c07a7e06e3e34",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:151",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "6dba5e19d18d46639cbf8450a27478265cc4ef13c816df6bec66f6a305796e69",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:152",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "b6783c73e829a3620d5414ff3ac1c55cc462fd30a97265d0984ce2d86193e4c0",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:153",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL031",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "b6783c73e829a3620d5414ff3ac1c55cc462fd30a97265d0984ce2d86193e4c0",
+      "title": "Script executes dynamically built code or uses a shell",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:153",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "2a12d7bbf3821c26e9da58fd144f74726635c5a2ed6290bfd3725bb6727a6cd4",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:154",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "5e7fcd2fbebde6cfdad5625715cc43c16be311187b6601ab28369334735c4bb3",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:156",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "24259e47822c1b41a9192fbfbc8b2e7d3fb873a917b4a6f3119156fa601af97d",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:159",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "e12e333e536415d0435bf370d77a657c2d7da05fa60ad0eb752aaee4734c759b",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:160",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "d5d613766d4b2fb068c51a7a0a378bc7f0a1c182b1b5a1fc1c413043bbd7d0c9",
+      "title": "Script references credential stores or secret variables",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:164",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "2423f87d1b68dd61e1d6b21b02a8dfbb436d3fa0610aad4a638cc721816e6eee",
+      "title": "Script references credential stores or secret variables",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:165",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "143675b00168b034210f673ac407e6a8255aa2270e9d21461db595b204491325",
+      "title": "Script references credential stores or secret variables",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:166",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL032",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "6e9530b7d55e3fd1b312a29acdd8940d9606d69a8e0d8cc26765b496930ff166",
+      "title": "Script references credential stores or secret variables",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:168",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL023",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "11405579bc5e6befd3d6861fd0332db2bcbb0609246ee28deed672cadb554652",
+      "title": "Writes to a persistence location",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:173",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "cf1a4a9f8348d5665f635617f1e9b9898d886df6e581574d6c1a180e97575757",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:190",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    },
+    {
+      "id": "SKL030",
+      "path": "skill-supply-chain-audit/scripts/audit_skill.py",
+      "line_sha256": "af3623726f7fa5b08cae1e09ef6265df2480457af7be00f115e94480839bf2b8",
+      "title": "Script makes network calls",
+      "location": "skill-supply-chain-audit/scripts/audit_skill.py:200",
+      "reason": "Pattern definitions and path lists inside a read-only audit/detection script; the script never executes these patterns (reviewed 2026-09-29)."
+    }
+  ],
+  "note": "Accepted findings from running skill-supply-chain-audit on this repository's own skills. Security scanners flag this repo because its detection patterns and guidance contain the strings they look for. Any new or changed line is re-reported in CI."
+}

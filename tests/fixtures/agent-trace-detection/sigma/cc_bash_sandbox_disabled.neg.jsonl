@@ -1,0 +1,2 @@
+{"event.name": "tool_result", "tool_name": "Bash", "session.id": "s1", "tool_parameters": "{\"bash_command\": \"make test\", \"dangerouslyDisableSandbox\": false}"}
+{"event.name": "tool_result", "tool_name": "Read", "session.id": "s1", "tool_parameters": "{}"}

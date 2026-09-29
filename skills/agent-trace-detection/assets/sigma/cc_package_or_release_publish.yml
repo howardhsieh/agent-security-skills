@@ -1,0 +1,27 @@
+title: Claude Code published a package, image or release
+id: d23b5db2-aeb1-4885-9050-667ea040b418
+status: experimental
+description: A Bash tool call published to a package registry, container registry or GitHub releases. Publishing is irreversible
+  and externally visible; it is a classic end state of agent supply-chain compromise. Needs OTEL_LOG_TOOL_DETAILS=1.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1195.002
+- owasp.asi02
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name:
+    - tool_decision
+    - tool_result
+    tool_name: Bash
+    tool_parameters.bash_command|re|i: \b((npm|pnpm|yarn)\s+publish|twine\s+upload|cargo\s+publish|gem\s+push|docker\s+push|gh\s+release\s+create)\b
+  condition: selection
+falsepositives:
+- Release automation the user explicitly asked the agent to run
+level: medium

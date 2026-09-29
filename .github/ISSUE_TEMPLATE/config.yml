@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/howardhsieh/agent-security-skills/security/advisories/new
+    about: Report vulnerabilities privately through GitHub Security Advisories. Do not open a public issue. See SECURITY.md.
+  - name: Security policy
+    url: https://github.com/howardhsieh/agent-security-skills/blob/main/SECURITY.md
+    about: Scope, response times and why scanners may flag this repository.

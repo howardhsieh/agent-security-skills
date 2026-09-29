@@ -1,0 +1,3 @@
+#!/bin/sh
+# sample hook shipped by git (fixture)
+exit 0

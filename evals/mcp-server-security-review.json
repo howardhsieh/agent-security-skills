@@ -1,0 +1,20 @@
+{
+  "skill": "mcp-server-security-review",
+  "should_trigger": [
+    "Review the security of our MCP server in ./servers/jira-mcp before we publish it. It's TypeScript and uses OAuth.",
+    "We're thinking of adopting this third-party MCP server (cloned at ./vendor/fs-mcp). Is it safe? Look for command injection, path traversal, anything like that.",
+    "Check whether our remote MCP server validates token audience correctly and doesn't pass the user's token through to the upstream API."
+  ],
+  "should_not_trigger": [
+    "Add a new tool to my MCP server that lists GitHub issues.",
+    "Which MCP servers are configured in my Claude Code setup and are any of them risky?"
+  ],
+  "expected_behaviors": [
+    "maps every registered tool, resource, and prompt before reporting vulnerabilities",
+    "does not start the server or call its tools with real credentials; reviews source code statically unless the user approves a sandboxed run",
+    "reviews tool names, descriptions, and schemas for hidden or mutable instructions (tool poisoning or rug-pull risk)",
+    "traces each reported vulnerability from source to sink and labels anything not fully traced as a candidate rather than confirmed",
+    "never prints secret values found in the code; shows them redacted",
+    "references MCP spec sections or framework IDs with version or edition for each finding and gives a code-level fix"
+  ]
+}

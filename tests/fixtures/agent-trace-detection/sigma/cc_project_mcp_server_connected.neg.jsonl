@@ -1,0 +1,2 @@
+{"event.name": "mcp_server_connection", "session.id": "s1", "status": "connected", "server_scope": "user", "transport_type": "http"}
+{"event.name": "mcp_server_connection", "session.id": "s1", "status": "failed", "server_scope": "project", "transport_type": "stdio"}

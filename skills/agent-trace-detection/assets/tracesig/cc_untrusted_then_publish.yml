@@ -1,0 +1,20 @@
+id: CC-INJ-001
+title: Untrusted content followed closely by a publish or push (Claude Code)
+status: experimental
+severity: critical
+category: injection
+description: >
+  Within five tool calls of reading untrusted content (web page, search
+  result, MCP tool result such as an issue or email), the agent pushed,
+  published or created a release. A prompt-injected agent's typical way to
+  reach the outside world.
+tags:
+  - owasp-asi01
+  - atlas-aml-t0051-001
+references:
+  - https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/
+detection:
+  sequence:
+    - labels: untrusted
+    - tool|matches: "^(Bash|PowerShell)\\(publish\\)$"
+  within_events: 5

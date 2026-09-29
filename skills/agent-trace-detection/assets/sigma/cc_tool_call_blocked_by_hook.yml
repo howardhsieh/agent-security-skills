@@ -1,0 +1,25 @@
+title: Guardrail hook blocked a Claude Code tool call
+id: 192307f5-76fa-459c-be1f-9b72cf83e5fd
+status: experimental
+description: A PreToolUse hook rejected a tool call. A single block is a guardrail working; repeated blocks in one session
+  suggest an agent being steered toward a forbidden action.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- owasp.asi01
+- owasp.asi02
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: tool_decision
+    decision: reject
+    source: hook
+  condition: selection
+falsepositives:
+- Normal guardrail activity; alert on volume per session in your SIEM
+level: low

@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "disableBypassPermissionsMode": "disable",
+    "allow": [
+      "Bash(npm run test *)",
+      "Bash(git diff *)",
+      "WebFetch(domain:docs.example.com)"
+    ],
+    "ask": ["Bash(git push *)"],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Bash(curl *)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": ["registry.npmjs.org", "*.example.com"]
+    },
+    "credentials": {
+      "envVars": [{ "name": "GITHUB_TOKEN", "mode": "deny" }]
+    }
+  },
+  "env": {
+    "DISABLE_AUTO_COMPACT": "1"
+  },
+  "apiKeyHelper": "~/.claude/bin/get-api-key.sh",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/check-bash.sh" },
+          { "type": "http", "url": "http://localhost:8080/hooks/pre-tool-use" }
+        ]
+      }
+    ]
+  }
+}

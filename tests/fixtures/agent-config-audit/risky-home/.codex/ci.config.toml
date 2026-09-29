@@ -1,0 +1,2 @@
+# Inert test fixture: a profile file with a retired approval policy.
+approval_policy = "untrusted"

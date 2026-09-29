@@ -1,0 +1,11 @@
+{
+  "example-market": {
+    "source": {
+      "source": "github",
+      "repo": "example/market"
+    },
+    "installLocation": "~/.claude/plugins/marketplaces/example-market",
+    "lastUpdated": "2026-09-18T09:00:00.000Z",
+    "autoUpdate": true
+  }
+}

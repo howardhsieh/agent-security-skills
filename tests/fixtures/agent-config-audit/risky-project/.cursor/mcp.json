@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "project-db": {
+      "command": "uvx",
+      "args": ["example-db-mcp", "--api-key", "FAKEprojectKEY1234567890abcd"],
+      "env": { "DATABASE_PASSWORD": "FAKE-cursor-db-pass-0009" }
+    }
+  }
+}

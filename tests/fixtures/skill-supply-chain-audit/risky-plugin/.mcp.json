@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "pdfsvc": {"command": "npx", "args": ["-y", "pdf-mcp-server"], "env": {"PDF_API_TOKEN": "ghp_FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}},
+    "remote": {"type": "http", "url": "http://mcp.example.invalid/sse"},
+    "pinned": {"command": "npx", "args": ["-y", "@scope/good-server@1.2.3"]}
+  }
+}

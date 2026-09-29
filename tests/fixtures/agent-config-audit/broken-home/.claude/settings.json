@@ -1,0 +1,8 @@
+{
+  // comments are a syntax error in Claude Code settings
+  "permissions": {
+    "deny": ["Read(**/.env)", "Read(~/.ssh/**)", "Read(~/.aws/**)"],
+    "disableBypassPermissionsMode": "disable",
+  },
+  "sandbox": { "enabled": true, "allowUnsandboxedCommands": false }
+}

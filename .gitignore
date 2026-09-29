@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+.venv/
+venv/
+.python-version
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Build output (release zips are built in CI)
+dist/
+
+# Evidence collected while following agent-incident-response. Keep it out of
+# git: it can hold transcripts, configs and redacted-but-sensitive findings.
+evidence/
+**/evidence/
+
+# Eval harness output
+evals/results/
+*-workspace/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Note: lockfiles (*.lock, *.lock.json, package-lock.json, uv.lock) are
+# intentionally NOT ignored. Commit them.

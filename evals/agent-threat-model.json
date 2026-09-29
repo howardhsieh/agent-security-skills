@@ -1,0 +1,20 @@
+{
+  "skill": "agent-threat-model",
+  "should_trigger": [
+    "We're building a support agent that reads customer emails, looks up orders in Postgres, and can issue refunds via Stripe. Can you threat model it?",
+    "Do a STRIDE-style threat model of our coding agent setup: Claude Code with GitHub, Jira, and a browser MCP server, running in CI on pull requests.",
+    "Does our RAG assistant have the lethal trifecta? It reads internal wiki pages and public web results and can send Slack messages."
+  ],
+  "should_not_trigger": [
+    "Threat model our payment microservice's REST API; there's no AI in it.",
+    "Explain what prompt injection is in two sentences."
+  ],
+  "expected_behaviors": [
+    "inventories the agent's tools, data sources, credentials, and trust boundaries before listing threats",
+    "checks each agent context for the lethal trifecta (private data, untrusted content, external communication) and says which contexts have all three",
+    "maps threats to framework IDs with their edition, such as ASI01 (Agentic Top 10 2026), LLM01:2025, or AML.T0051 (ATLAS)",
+    "treats the model as not being a security boundary and proposes mitigations enforced outside it, such as IAM, sandboxing, network egress limits, or human approval",
+    "rates each threat's likelihood or impact and ties it to at least one concrete mitigation",
+    "asks for, or states as assumptions, missing architecture details instead of inventing them"
+  ]
+}

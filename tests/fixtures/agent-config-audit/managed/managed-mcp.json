@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "company-internal": {
+      "type": "stdio",
+      "command": "/usr/local/bin/company-mcp-server",
+      "env": { "COMPANY_API_KEY": "sk-FAKEFAKEFAKEFAKEFAKEFAKE0010" }
+    }
+  }
+}

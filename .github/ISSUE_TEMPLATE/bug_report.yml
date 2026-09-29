@@ -1,0 +1,98 @@
+name: Bug report
+description: A script, skill instruction, rule or packaging problem that behaves wrongly.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. **Do not report security vulnerabilities here.** Use
+        [private vulnerability reporting](https://github.com/howardhsieh/agent-security-skills/security/advisories/new)
+        as described in SECURITY.md.
+
+        Please remove secrets, tokens, internal hostnames and customer data from anything you paste.
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Affected skill or area
+      options:
+        - skill-supply-chain-audit
+        - agent-config-audit
+        - agent-threat-model
+        - mcp-server-security-review
+        - agent-trace-detection
+        - agent-incident-response
+        - Repository tooling (validator, packager, CI)
+        - Installation or packaging
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - False positive (flagged something safe)
+        - False negative (missed something it should catch)
+        - Script crash or wrong output
+        - Skill instructions wrong, unclear or outdated
+        - Skill does not load or does not trigger
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you ran or asked, and what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Commands, prompts, or a minimal inert input file (use example.invalid domains and tokens marked FAKE).
+      placeholder: |
+        1. python3 scripts/audit_skill.py scan ./fixture --json
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Script output or the relevant part of the transcript. Redact secrets.
+      render: text
+  - type: input
+    id: repo-version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or a commit SHA
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent, client and model
+      placeholder: Claude Code 2.1.x with Sonnet, claude.ai, Codex CLI, Cursor, ...
+  - type: input
+    id: environment
+    attributes:
+      label: OS and Python version
+      placeholder: macOS 15, Python 3.12
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This is not a security vulnerability in this repository (those go to private reporting).
+          required: true
+        - label: I removed secrets and private data from this report.
+          required: true

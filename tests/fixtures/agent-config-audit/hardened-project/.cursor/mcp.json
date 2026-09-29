@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "tools": {
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/mcp_server.py"],
+      "envFile": "${workspaceFolder}/.env"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+title: Repository-supplied MCP server connected
+id: a635277c-89cc-48fd-a0b5-265579508e9d
+status: experimental
+description: An MCP server defined in the repository's .mcp.json connected. Repository files are controlled by anyone who
+  can push to the repo, and non-interactive sessions connect these servers without asking.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- atlas.aml-t0010.005
+- owasp.asi04
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: mcp_server_connection
+    status: connected
+    server_scope: project
+  condition: selection
+falsepositives:
+- Team repositories with reviewed .mcp.json files; allowlist by server_name
+level: medium

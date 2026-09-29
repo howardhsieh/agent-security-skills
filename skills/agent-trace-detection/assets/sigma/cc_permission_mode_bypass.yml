@@ -1,0 +1,25 @@
+title: Claude Code session switched to bypassPermissions mode
+id: fae3c5b7-6b5a-4862-8bd7-3c6deb839d6c
+status: experimental
+description: A Claude Code session changed its permission mode to bypassPermissions, which runs every tool call without asking.
+  Expected only in disposable containers or VMs.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1562
+- atlas.aml-t0081
+- owasp.asi02
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: permission_mode_changed
+    to_mode: bypassPermissions
+  condition: selection
+falsepositives:
+- Intentional use inside an isolated container or CI sandbox
+level: high

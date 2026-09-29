@@ -1,0 +1,20 @@
+{
+  "skill": "agent-config-audit",
+  "should_trigger": [
+    "Can you check my Claude Code settings and MCP config for risky stuff? I think I turned on bypassPermissions at some point.",
+    "Audit ~/.codex/config.toml and our repo's .mcp.json before we roll this agent setup out to the whole team.",
+    "We run Cursor and Claude Code on the same laptops. Are there any settings that let the agent run shell commands or reach the network without asking?"
+  ],
+  "should_not_trigger": [
+    "Help me write a .claude/settings.json that adds a Prettier format hook after every edit.",
+    "Our Kubernetes RBAC config is a mess, can you review the ClusterRoles?"
+  ],
+  "expected_behaviors": [
+    "runs scripts/audit_agent_config.py (with --json or the default text output) before giving conclusions about the configuration",
+    "never prints API keys, tokens, or other secret values from config files; reports only the file and key where they appear",
+    "does not change any configuration file itself; presents fixes as edits for the user to apply or approve",
+    "reports each finding with a check ID, severity, the file and setting involved, and a fix",
+    "explains which settings file or scope takes precedence when the same setting appears in several places",
+    "states what the audit cannot see, such as settings changed at runtime or servers the static audit could not inspect"
+  ]
+}

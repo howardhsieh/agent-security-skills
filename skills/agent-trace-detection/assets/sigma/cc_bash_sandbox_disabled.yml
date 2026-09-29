@@ -1,0 +1,27 @@
+title: Claude Code ran a shell command with the sandbox disabled
+id: cb0b596f-7d6b-42d6-b299-70a77b17a051
+status: experimental
+description: A Bash tool call set dangerouslyDisableSandbox, so the command ran without filesystem and network isolation.
+  Needs OTEL_LOG_TOOL_DETAILS=1.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1562
+- owasp.asi05
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name:
+    - tool_decision
+    - tool_result
+    tool_name: Bash
+    tool_parameters.dangerouslyDisableSandbox: 'true'
+  condition: selection
+falsepositives:
+- User-approved commands that need hardware or network access the sandbox blocks
+level: medium

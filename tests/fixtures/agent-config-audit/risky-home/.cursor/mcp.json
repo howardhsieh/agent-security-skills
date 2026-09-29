@@ -1,0 +1,21 @@
+{
+  // Cursor tolerates comments in some setups; the audit parses leniently.
+  "mcpServers": {
+    "browser": {
+      "command": "npx",
+      "args": ["-y", "example-browser-mcp@latest"],
+      "env": { "API_KEY": "AIzaFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE06" }
+    },
+    "insecure-remote": {
+      "url": "http://mcp.example.com:8080/mcp"
+    },
+    "oauth-remote": {
+      "url": "https://mcp.example.com/mcp",
+      "auth": { "CLIENT_ID": "example-client", "CLIENT_SECRET": "FAKE-client-secret-0007" }
+    },
+    "windows-wrapper": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "example-win-mcp"]
+    }
+  }
+}

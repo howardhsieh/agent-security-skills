@@ -1,0 +1,27 @@
+title: Claude Code force-pushed or rewrote git history
+id: 643ab02a-18e7-45e7-8def-186f3fe537d1
+status: experimental
+description: A Bash tool call force-pushed a branch, which can destroy others' work or hide changes. Needs OTEL_LOG_TOOL_DETAILS=1.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1485
+- atlas.aml-t0101
+- owasp.asi02
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name:
+    - tool_decision
+    - tool_result
+    tool_name: Bash
+    tool_parameters.bash_command|re|i: \bgit\s+push\b[^;&|]*(\s--force(-with-lease)?\b|\s-f\b|\s\+\S)
+  condition: selection
+falsepositives:
+- Force-pushing a personal feature branch after an interactive rebase
+level: medium

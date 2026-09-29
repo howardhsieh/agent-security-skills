@@ -1,0 +1,2 @@
+{"event.name": "tool_decision", "session.id": "s1", "tool_name": "Bash", "decision": "reject", "source": "user_reject"}
+{"event.name": "tool_decision", "session.id": "s1", "tool_name": "Bash", "decision": "accept", "source": "hook"}

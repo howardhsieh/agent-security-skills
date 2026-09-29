@@ -1,0 +1,1 @@
+Not JSON and not .json: Claude Code ignores it, and so must the audit.

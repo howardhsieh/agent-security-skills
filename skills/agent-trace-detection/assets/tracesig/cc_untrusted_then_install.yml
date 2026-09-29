@@ -1,0 +1,19 @@
+id: CC-INJ-003
+title: Untrusted content followed closely by a package install (Claude Code)
+status: experimental
+severity: medium
+category: injection
+description: >
+  Within three tool calls of reading untrusted content, the agent installed a
+  package or ran a download-and-execute installer. Injected instructions often
+  pull in attacker-controlled packages.
+tags:
+  - owasp-asi04
+  - owasp-asi05
+references:
+  - https://github.com/howardhsieh/agent-security-skills
+detection:
+  sequence:
+    - labels: untrusted
+    - tool|matches: "^(Bash|PowerShell)\\(install\\)$"
+  within_events: 3

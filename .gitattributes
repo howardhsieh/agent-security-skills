@@ -1,0 +1,9 @@
+# Keep LF line endings on every OS, including Windows CI runners, so file
+# hashes, test fixtures and release zips are the same everywhere.
+* text=auto eol=lf
+
+*.zip binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.pdf binary

@@ -1,0 +1,2 @@
+{"event.name": "skill_activated", "session.id": "s1", "skill.source": "projectSettings", "invocation_trigger": "user-slash"}
+{"event.name": "skill_activated", "session.id": "s1", "skill.source": "plugin", "invocation_trigger": "claude-proactive"}

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "deny": ["Read(**/.env)", "Read(~/.ssh/**)", "Read(~/.aws/**)"],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "allowManagedHooksOnly": true,
+  "sandbox": { "enabled": true, "failIfUnavailable": true, "allowUnsandboxedCommands": false }
+}

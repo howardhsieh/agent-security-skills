@@ -1,0 +1,2 @@
+{"event.name": "permission_mode_changed", "session.id": "s1", "from_mode": "default", "to_mode": "plan", "trigger": "shift_tab"}
+{"event.name": "permission_mode_changed", "session.id": "s1", "from_mode": "plan", "to_mode": "acceptEdits", "trigger": "exit_plan_mode"}

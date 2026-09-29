@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build zips and publish a GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate before packaging
+        run: python tools/validate_skills.py
+
+      - name: Run tests before packaging
+        run: |
+          python -m pip install pytest pyyaml
+          python -m pytest -q
+
+      - name: Check the tag matches the plugin version
+        run: |
+          version="$(python -c 'import json; d = json.load(open(".claude-plugin/marketplace.json", encoding="utf-8")); print(d["plugins"][0]["version"])')"
+          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match plugin version ${version} in .claude-plugin/marketplace.json"
+            exit 1
+          fi
+
+      - name: Build dist/*.zip
+        run: |
+          # Deterministic timestamps: use the tagged commit's time.
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+          python tools/package_skills.py --clean
+          (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --verify-tag --generate-notes --title "$GITHUB_REF_NAME"

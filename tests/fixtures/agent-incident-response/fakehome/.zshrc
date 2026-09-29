@@ -1,0 +1,2 @@
+# FIXTURE ONLY
+setopt autocd

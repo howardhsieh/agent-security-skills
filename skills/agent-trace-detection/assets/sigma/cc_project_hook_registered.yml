@@ -1,0 +1,25 @@
+title: Repository-supplied hook registered
+id: 4b8a4fb0-91bb-486c-8d3e-f7ff068dac47
+status: experimental
+description: A hook from the repository's .claude/settings.json was registered. It will run shell commands on agent events
+  with the user's privileges; claude -p and SDK sessions run it without a trust prompt.
+references:
+- https://code.claude.com/docs/en/monitoring-usage
+- https://github.com/howardhsieh/agent-security-skills
+author: Howard Hsieh
+date: '2026-09-29'
+tags:
+- attack.t1546
+- owasp.asi04
+- owasp.asi05
+logsource:
+  product: claude_code
+  service: otel
+detection:
+  selection:
+    event.name: hook_registered
+    hook_source: projectSettings
+  condition: selection
+falsepositives:
+- Team repositories with reviewed hooks
+level: medium
