@@ -116,7 +116,7 @@ python3 "$S/scripts/normalize.py" otel-export.json --format flat --out "$W/flat.
 TraceSig rules (provenance chains, in `assets/tracesig/`):
 
 ```bash
-pip install "git+https://github.com/howardhsieh/tracesig@f9b498521b583eb153ece19f08b0af31c8b52be0"   # TraceSig 0.2.0
+pip install "tracesig>=0.2"
 tracesig scan "$W/trace.jsonl" --rules "$S/assets/tracesig/"
 tracesig scan "$W/trace.jsonl" --rules "$S/assets/tracesig/" --fail-on critical   # CI
 ```

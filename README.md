@@ -178,7 +178,7 @@ $ python3 skills/agent-config-audit/scripts/audit_agent_config.py --project .
 Hunting through your own Claude Code sessions:
 
 ```bash
-pip install "git+https://github.com/howardhsieh/tracesig@v0.2.0"
+pip install tracesig
 tracesig scan ~/.claude/projects/
 # [CRIT] CC-EXF-001 — Secret read followed by an outbound network call (Claude Code)
 ```

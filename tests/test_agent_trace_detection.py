@@ -188,7 +188,7 @@ def _tracesig():
         from tracesig.engine import load_rules, scan  # type: ignore
         from tracesig.schema import load_jsonl  # type: ignore
     except ImportError:
-        pytest.skip("tracesig not installed (pip install git+https://github.com/howardhsieh/tracesig)")
+        pytest.skip("tracesig not installed (pip install tracesig)")
     return load_rules, scan, load_jsonl
 
 
