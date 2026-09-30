@@ -42,6 +42,26 @@
         "detection",
         "incident-response"
       ]
+    },
+    {
+      "name": "agentsec-guard",
+      "source": "./plugins/agentsec-guard",
+      "description": "Optional runtime guardrails (hooks): blocks download-and-execute, asks before credential access, before publish or force-push right after untrusted web/MCP content, and before the agent edits its own config; warns when installed plugins change. Local checks only, no network.",
+      "version": "0.1.1",
+      "author": {
+        "name": "Howard Hsieh",
+        "url": "https://github.com/howardhsieh"
+      },
+      "homepage": "https://github.com/howardhsieh/agent-security-skills/tree/main/plugins/agentsec-guard",
+      "license": "Apache-2.0",
+      "category": "security",
+      "keywords": [
+        "security",
+        "hooks",
+        "guardrails",
+        "prompt-injection",
+        "supply-chain"
+      ]
     }
   ]
 }
