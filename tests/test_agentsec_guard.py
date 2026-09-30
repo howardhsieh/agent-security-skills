@@ -16,7 +16,9 @@ GUARD = PLUGIN / "scripts" / "guard.py"
 
 
 def hook(event: str, payload, tmp_path: Path, **env) -> subprocess.CompletedProcess:
-    e = dict(os.environ, CLAUDE_PLUGIN_DATA=str(tmp_path / "data"), HOME=str(tmp_path / "home"))
+    # Path.home() reads HOME on POSIX and USERPROFILE on Windows.
+    e = dict(os.environ, CLAUDE_PLUGIN_DATA=str(tmp_path / "data"), HOME=str(tmp_path / "home"),
+             USERPROFILE=str(tmp_path / "home"))
     e.update(env)
     data = payload if isinstance(payload, str) else json.dumps(payload)
     return subprocess.run([sys.executable, str(GUARD), event], input=data, capture_output=True, text=True, env=e, timeout=30)
@@ -138,7 +140,7 @@ def test_session_baseline_create_compare_approve(tmp_path):
     changed = json.loads(hook("session", {"session_id": "s", "source": "startup"}, tmp_path).stdout)
     assert "S001" in changed["systemMessage"] and "tool@market" in changed["systemMessage"]
     assert changed["hookSpecificOutput"]["hookEventName"] == "SessionStart"
-    env = dict(os.environ, CLAUDE_PLUGIN_DATA=str(tmp_path / "data"), HOME=str(home))
+    env = dict(os.environ, CLAUDE_PLUGIN_DATA=str(tmp_path / "data"), HOME=str(home), USERPROFILE=str(home))
     subprocess.run([sys.executable, str(GUARD), "approve"], env=env, capture_output=True, timeout=30, check=True)
     assert hook("session", {"session_id": "s", "source": "startup"}, tmp_path).stdout.strip() == ""
 
