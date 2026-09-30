@@ -843,8 +843,11 @@ def _check_references(report: Report, skill_dir: Path) -> None:
 def check_skill(report: Report, skill_dir: Path, use_pyyaml: bool = True,
                 expected_version: Optional[str] = None) -> Optional[Dict[str, Any]]:
     skill_md = skill_dir / "SKILL.md"
-    if not skill_md.is_file():
-        other = [p.name for p in skill_dir.iterdir() if p.name.lower() == "skill.md"]
+    # Compare exact names: on case-insensitive filesystems (macOS, Windows)
+    # skill.md would otherwise pass as SKILL.md and break on Linux agents.
+    names = {p.name for p in skill_dir.iterdir()}
+    if "SKILL.md" not in names or not skill_md.is_file():
+        other = sorted(n for n in names if n.lower() == "skill.md" and n != "SKILL.md")
         if other:
             report.error("skill-md-missing", skill_dir, "found %s; the file must be named SKILL.md" % other[0])
         else:
