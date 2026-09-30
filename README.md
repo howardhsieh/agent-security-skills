@@ -42,7 +42,7 @@ included).
 |---|---|---|
 | **Ask your agent** | Seven skills: checkup, supply-chain audit, config audit, threat model, MCP server review, trace detection, incident response | `agentsec-kit` plugin, `npx skills add`, or zips for claude.ai |
 | **Guard at runtime** | Optional hooks that block `curl \| sh`, ask before reading credential stores, and ask before a push or publish right after the agent read web or MCP content | `/plugin install agentsec-guard@agent-security-skills` |
-| **Gate in CI** | A GitHub Action that audits skills, plugins and marketplaces on every pull request, with SARIF for the Security tab and a badge | `uses: howardhsieh/agent-security-skills@v0.2.1` |
+| **Gate in CI** | A GitHub Action that audits skills, plugins and marketplaces on every pull request, with SARIF for the Security tab and a badge | `uses: howardhsieh/agent-security-skills@v0.2.2` |
 
 ## Why
 
@@ -79,7 +79,7 @@ flowchart LR
 | Skill | Ask your agent | What you get |
 |---|---|---|
 | [`agent-security-checkup`](skills/agent-security-checkup/SKILL.md) | "Run a security checkup" | One grade (A to F) for your whole setup across Claude Code, Codex, Cursor, installed packages and MCP servers; top risks, quick wins, shareable HTML report |
-| [`skill-supply-chain-audit`](skills/skill-supply-chain-audit/SKILL.md) | "Audit this plugin before I install it" | Inventory of hooks, scripts and MCP servers; 32 checks (hidden Unicode, symlinks, download-and-execute hooks, credential reads, persistence, covert instructions, unpinned packages); hash lockfile, update-drift diff, SARIF |
+| [`skill-supply-chain-audit`](skills/skill-supply-chain-audit/SKILL.md) | "Audit this plugin before I install it" | Inventory of hooks, scripts and MCP servers; 33 checks (hidden Unicode, symlinks, documents, download-and-execute hooks, credential reads, persistence, covert instructions, unpinned packages); hash lockfile, update-drift diff, SARIF |
 | [`agent-config-audit`](skills/agent-config-audit/SKILL.md) | "Is my Claude Code / Codex / Cursor setup safe?" | 48 checks across permissions, sandbox, hooks, MCP and plaintext secrets, grouped by trust boundary, plus a ready-to-paste hardening plan |
 | [`agent-threat-model`](skills/agent-threat-model/SKILL.md) | "Threat-model our support agent" | Data-flow diagram, lethal-trifecta check per agent context, threats mapped to OWASP Agentic Top 10 2026, LLM Top 10 and MITRE ATLAS, prioritized mitigations |
 | [`mcp-server-security-review`](skills/mcp-server-security-review/SKILL.md) | "Review this MCP server's code" | Tool-surface map, model-facing text review (tool poisoning, rug pulls), auth checks against the MCP 2026-07-28 spec, handler vulns with verified data flows |
@@ -139,7 +139,7 @@ Audit the skills or plugin you publish on every pull request:
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: howardhsieh/agent-security-skills@v0.2.1
+- uses: howardhsieh/agent-security-skills@v0.2.2
   with:
     path: skills        # a skill, a plugin, a marketplace repo, or "."
     fail-on: high
@@ -155,7 +155,7 @@ Auditing a plugin before install:
 
 ```text
 $ python3 skills/skill-supply-chain-audit/scripts/audit_skill.py scan ./pdf-helper-pro
-audit_skill 0.2.1  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
+audit_skill 0.2.2  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
 Inventory: 6 files, 1992 bytes; skills: pdf-helper; plugins: pdf-helper-pro; hooks: PostToolUse x1, SessionStart x1, Stop x1; ...
 
 [CRITICAL] SKL021  Downloads and executes remote code
@@ -212,6 +212,8 @@ docs on 2026-09-29; each check links the page it relies on.
 - **Spec-compliant.** Frontmatter uses only the six portable Agent Skills
   fields, validated with `tools/validate_skills.py`, `skills-ref` and
   `claude plugin validate`.
+- **Bypass-tested.** The four scanner bypasses Trail of Bits published in June
+  2026 are fixtures that must fail the audit.
 - **Honest about limits.** Static checks are evadable. Each skill lists what it
   misses and what to pair it with.
 
@@ -220,19 +222,39 @@ docs on 2026-09-29; each check links the page it relies on.
 > `~/.aws/credentials`, "ignore previous instructions"). They are data, never
 > executed. See [SECURITY.md](SECURITY.md).
 
-## How it fits with other tools
+## How it compares
 
-This pack complements, not replaces:
+**Code-audit skills find bugs in the code your agent writes. agentsec-kit
+secures the agent itself:** what it installs, how it is configured, what it does
+while it runs, and what to do when something gets through.
 
-- **Scanners** such as [NVIDIA SkillSpector](https://github.com/NVIDIA/SkillSpector),
-  [snyk/agent-scan](https://github.com/snyk/agent-scan) and
-  [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner):
-  run one of them too; different tools miss different things.
-- **Application security skills** such as
-  [trailofbits/skills](https://github.com/trailofbits/skills) and Anthropic's
-  [`claude-security`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-security)
-  plugin: they review your application code; this pack secures the agent
-  around it.
+| Tool | What it secures | How |
+|---|---|---|
+| [Cloudflare security-audit skill](https://github.com/cloudflare/security-audit-skill) | Your application's source code | Multi-agent audit (recon, hunting, adversarial validation); its supply-chain guidance treats "intended installation of arbitrary same-user plugins" as no privilege boundary |
+| [trailofbits/skills](https://github.com/trailofbits/skills), Anthropic [`claude-security`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-security) | Your application's source code | Security review and static-analysis skills |
+| [snyk/agent-scan](https://github.com/snyk/agent-scan) | Installed MCP servers and skills | Local discovery plus analysis through the Snyk API (account and token required) |
+| [NVIDIA SkillSpector](https://github.com/NVIDIA/SkillSpector), [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner) | A skill package before install | Static patterns plus optional LLM analysis |
+| [AgentShield](https://github.com/affaan-m/agentshield) | Claude Code configuration | 102 static rules and an A–F grade; optional LLM deep analysis |
+| [cc-safety-net](https://github.com/kenryu42/claude-code-safety-net), [claude-code-damage-control](https://github.com/disler/claude-code-damage-control) | Commands at runtime | PreToolUse hooks that block destructive commands and secret paths |
+| **agentsec-kit** | **The agent's whole lifecycle** | Pre-install audit with a hash lockfile; config audit for Claude Code, Codex and Cursor; A–F checkup; runtime guard that knows when the session read untrusted content; trace detection; incident response. Deterministic, local, no account, no network |
+
+Different tools miss different things, so run a code auditor on your code and a
+second skill scanner too. What this pack does that the others above don't, in
+one place:
+
+- **Covers before, during and after.** Audit and pin a skill before install,
+  diff it on every update, guard the session while it runs, and hunt through
+  the transcripts afterwards, with one vocabulary of check IDs.
+- **Provenance-aware runtime rules.** The guard asks before a push, publish or
+  `rm -rf` *only* in the minutes after the agent read web or MCP content,
+  instead of blocking those commands everywhere.
+- **Tested against published scanner bypasses.** Trail of Bits showed four
+  ways past public skill scanners (June 2026): blank-line padding, `.pyc`
+  bytecode, instructions inside a `.docx`, and text that talks an LLM scanner
+  into approving. All four are regression tests here; the scanner is
+  deterministic, so persuasion does not change its verdict.
+- **Three agents, one report.** Claude Code, Codex and Cursor settings are
+  graded together, next to every installed package and MCP server.
 
 ## The open agent-security stack
 

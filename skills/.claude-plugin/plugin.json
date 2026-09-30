@@ -1,7 +1,7 @@
 {
   "name": "agentsec-kit",
   "displayName": "agentsec-kit",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Defensive security skills for AI coding agents: audit skills and plugins before install, harden Claude Code/Codex/Cursor configs, threat-model agent apps, review MCP servers, detect hijacked agents in their own telemetry, and respond to agent incidents. Read-only scripts with no network access.",
   "author": {
     "name": "Howard Hsieh",

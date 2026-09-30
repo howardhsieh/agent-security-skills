@@ -105,9 +105,13 @@ See [pinning-and-drift.md](pinning-and-drift.md).
 
 Static scanning is evadable (Trail of Bits, 2026-06-03; Ji et al., 2026-07-02).
 Look for anything that resists reading: encoded blobs, minified code, binaries,
-archives, very long lines, generated code. Treat unreadable as unapproved.
+archives, very long lines, generated code, and documents (Word, PDF) that hold
+instructions. Treat unreadable as unapproved. The published bypasses: a payload
+pushed past a scanner's window with thousands of blank lines, logic shipped only
+as `.pyc` bytecode, instructions hidden in a `.docx`, and text that talks an
+LLM-based scanner into calling the package safe.
 
-Scanner: SKL033-SKL036, SKL038.
+Scanner: SKL033-SKL036, SKL038, SKL044.
 
 ## AST09 No Governance
 

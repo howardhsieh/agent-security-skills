@@ -4,7 +4,7 @@ description: Reviews an Agent Skill, Claude Code plugin, marketplace repo or bun
 license: Apache-2.0
 metadata:
   author: howardhsieh
-  version: "0.2.1"
+  version: "0.2.2"
   repository: https://github.com/howardhsieh/agent-security-skills
 ---
 
@@ -79,7 +79,11 @@ python3 "${CLAUDE_SKILL_DIR}/scripts/audit_skill.py" scan /tmp/review/REPO
 python3 "${CLAUDE_SKILL_DIR}/scripts/audit_skill.py" scan /tmp/review/REPO --json > /tmp/review/REPO-scan.json
 ```
 
-The scanner never follows symbolic links; it reports them (SKL039).
+The scanner never follows symbolic links; it reports them (SKL039). It is
+deterministic, so text written to persuade a reviewer cannot talk it out of a
+finding, and it covers the four scanner bypasses Trail of Bits published in
+June 2026 (padding, bytecode, document indirection, prompt injection);
+regression tests keep it that way.
 
 The report starts with an inventory (skills, plugins, hooks by event, MCP
 servers, scripts, binaries) and lists findings most severe first. Check IDs:
@@ -93,6 +97,7 @@ servers, scripts, binaries) and lists findings most severe first. Check IDs:
 | Hooks | SKL020-024 | Every hook (inventory), download-and-execute, exfiltration or credential reads, persistence, hooks on every event |
 | Scripts | SKL030-039 | Network calls, dynamic execution, credential stores, encoded blobs, decode-then-execute, binaries, archives, `bin/` on PATH, symlinks and special files |
 | MCP | SKL040-043 | Unpinned package launches, plaintext remote servers, literal credentials |
+| Documents | SKL044 | Office, OpenDocument, EPUB, RTF and PDF files (zipped documents are opened and their text checked); Markdown that tells the agent to follow a shipped document |
 | Marketplace | SKL050-051 | Entries without a pinned `sha`, npm or command sources |
 
 Any `critical` finding is a reject unless you can prove it is inert.

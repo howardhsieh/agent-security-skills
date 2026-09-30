@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 TOOL = "agent-security-checkup"
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 HERE = Path(__file__).resolve().parent
 SKILLS_ROOT = HERE.parent.parent
 REPO_URL = "https://github.com/howardhsieh/agent-security-skills"

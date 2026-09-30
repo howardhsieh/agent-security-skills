@@ -97,7 +97,7 @@ def assert_no_secrets(text: str) -> None:
 
 def assert_report_schema(rep, tool_target=None):
     assert rep["tool"] == "locate_agent_artifacts"
-    assert rep["version"] == "0.2.1"
+    assert rep["version"] == "0.2.2"
     assert isinstance(rep["target"], str)
     assert re.match(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$", rep["generated_at"])
     assert set(rep["summary"]) == {"critical", "high", "medium", "low", "info"}

@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-09-30
+
+### Added
+
+- SKL044: documents inside a package (Office, OpenDocument, EPUB, RTF, PDF).
+  Zipped documents are opened with size limits and their text gets the
+  Markdown checks (override phrases, hidden comments, credential paths,
+  download-and-execute); Markdown that tells the agent to follow a document
+  the package ships is high severity. Zip data disguised under another name is
+  reported as an archive, PDF data under another name as a document.
+- Regression tests for the four scanner bypasses Trail of Bits published in
+  June 2026: blank-line padding, `.pyc` bytecode, instructions in a `.docx`,
+  and text aimed at an LLM-based scanner.
+- README: how agentsec-kit compares with Cloudflare's security-audit skill,
+  code-review skills, skill scanners, AgentShield and runtime hook projects.
+
 ## [0.2.1] - 2026-09-30
 
 ### Fixed
@@ -104,7 +120,8 @@ Claude Code marketplace and as per-skill zips for claude.ai.
 - Evals for each skill under `evals/`, install guide in `docs/install.md`, and
   a security policy.
 
-[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.0...v0.1.1

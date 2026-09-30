@@ -4,7 +4,7 @@ description: Threat-models LLM and AI agent systems such as coding-agent setups,
 license: Apache-2.0
 metadata:
   author: howardhsieh
-  version: "0.2.1"
+  version: "0.2.2"
   repository: "https://github.com/howardhsieh/agent-security-skills"
 ---
 

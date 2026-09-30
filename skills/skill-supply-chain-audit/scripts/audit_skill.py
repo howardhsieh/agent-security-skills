@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 TOOL = "audit_skill"
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 SEVERITIES = ("critical", "high", "medium", "low", "info")
 RANK = {s: i for i, s in enumerate(SEVERITIES)}
 MAX_READ = 2 * 1024 * 1024  # bytes per file
@@ -129,6 +129,10 @@ CHECKS: Dict[str, Tuple[str, str, str, List[str]]] = {
     "SKL043": ("info", "MCP server declared",
                "Review the server with mcp-server-security-review before enabling it.",
                [ASI04]),
+    "SKL044": ("medium", "Document the agent may read (Office, OpenDocument, EPUB, RTF or PDF)",
+               "Instructions can hide inside documents that text scanners skip. Read the document's text yourself, or remove it; "
+               "a skill should keep its instructions in Markdown.",
+               ["AST08 (%s)" % AST, "https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/"]),
     "SKL050": ("medium", "Marketplace entry points to another repository without a pinned sha",
                "Add a 40-character sha to the source so the reviewed commit is what installs.",
                ["AST07 (%s)" % AST, "https://code.claude.com/docs/en/plugin-marketplaces"]),
@@ -210,6 +214,18 @@ SCRIPT_EXT = {".sh", ".bash", ".zsh", ".fish", ".py", ".js", ".mjs", ".cjs", ".t
               ".rb", ".pl", ".php", ".bat", ".cmd", ".go", ".rs", ".lua"}
 BINARY_EXT = {".exe", ".dll", ".so", ".dylib", ".bin", ".o", ".a", ".node", ".wasm", ".jar", ".class", ".pyc"}
 ARCHIVE_EXT = {".zip", ".tar", ".gz", ".tgz", ".bz2", ".xz", ".7z", ".rar", ".whl", ".skill", ".plugin"}
+# Documents: zipped XML formats are opened (bounded) and their text is checked
+# like Markdown; the rest are reported so a person reads them.
+ZIP_DOC_EXT = {".docx", ".docm", ".dotx", ".xlsx", ".xlsm", ".pptx", ".pptm", ".odt", ".ods", ".odp", ".epub"}
+DOC_EXT = ZIP_DOC_EXT | {".pdf", ".rtf", ".doc", ".xls", ".ppt"}
+DOC_MAX_MEMBERS = 500
+DOC_MAX_MEMBER_BYTES = 1024 * 1024
+DOC_MAX_TOTAL_BYTES = 4 * 1024 * 1024
+DOC_TEXT_MEMBER = re.compile(r"\.(?:xml|xhtml|html?|txt|rels)$", re.I)
+XML_TAG = re.compile(r"<[^>]{0,2000}>")
+DOC_REF = re.compile(r"[\w./-]+\.(?:docx|docm|dotx|xlsx|xlsm|pptx|pptm|odt|ods|odp|epub|pdf|rtf)\b", re.I)
+DOC_FOLLOW = re.compile(r"\b(?:follow|obey|apply|execute|instructions?|steps|rules|guidelines|procedure)\b", re.I)
+ZIP_MAGIC = b"PK\x03\x04"
 MAGIC = [(b"\x7fELF", "ELF"), (b"MZ", "PE"), (b"\xcf\xfa\xed\xfe", "Mach-O"), (b"\xfe\xed\xfa\xcf", "Mach-O"),
          (b"\xca\xfe\xba\xbe", "Mach-O/Java"), (b"\x00asm", "WebAssembly")]
 PORTABLE_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
@@ -422,7 +438,62 @@ def check_text_common(rep: Report, path: Path, text: str) -> None:
         rep.add("SKL010", path, ln, line_at(body, ln), evidence="U+FEFF inside the file")
 
 
+def document_text(path: Path) -> Tuple[str, List[str]]:
+    """Text of a zipped document's XML parts, bounded; returns (text, notes)."""
+    import zipfile
+    notes: List[str] = []
+    parts: List[str] = []
+    total = 0
+    try:
+        with zipfile.ZipFile(path) as zf:
+            infos = zf.infolist()
+            if len(infos) > DOC_MAX_MEMBERS:
+                notes.append("%d entries; first %d read" % (len(infos), DOC_MAX_MEMBERS))
+            for info in infos[:DOC_MAX_MEMBERS]:
+                if info.is_dir() or not DOC_TEXT_MEMBER.search(info.filename):
+                    continue
+                if info.file_size > DOC_MAX_MEMBER_BYTES or total + info.file_size > DOC_MAX_TOTAL_BYTES:
+                    notes.append("%s skipped (%d bytes uncompressed)" % (info.filename, info.file_size))
+                    continue
+                with zf.open(info) as fh:
+                    raw = fh.read(DOC_MAX_MEMBER_BYTES + 1)[:DOC_MAX_MEMBER_BYTES]
+                total += len(raw)
+                body = XML_TAG.sub(" ", raw.decode("utf-8", "replace"))
+                parts.append(re.sub(r"[ \t]+", " ", body))
+    except (OSError, ValueError, RuntimeError, NotImplementedError) as exc:
+        notes.append("not readable as a zip document: %s" % exc.__class__.__name__)
+    except Exception as exc:  # zipfile raises BadZipFile and friends; never crash a scan
+        notes.append("not readable as a zip document: %s" % exc.__class__.__name__)
+    return "\n".join(parts), notes
+
+
+def check_document(rep: Report, path: Path, size: int) -> None:
+    """SKL044 for a document; zipped XML documents also get the Markdown checks on their text."""
+    notes: List[str] = []
+    text = ""
+    if path.suffix.lower() in ZIP_DOC_EXT:
+        text, notes = document_text(path)
+    rep.add("SKL044", path, 0, path.name, evidence="%s (%d bytes%s)" % (path.name, size, "; " + "; ".join(notes[:3]) if notes else ""))
+    if text:
+        inner = path.with_name(path.name + "!text")
+        check_text_common(rep, inner, text)
+        check_markdown(rep, inner, text, is_skill_md=False, is_command=False)
+        for ln, line in enumerate(text.splitlines(), start=1):
+            if DOWNLOAD_EXEC.search(line):
+                rep.add("SKL021", inner, ln, line)
+            if CRED.search(line):
+                rep.add("SKL032", inner, ln, line, extra="inside a document")
+
+
 def check_markdown(rep: Report, path: Path, text: str, is_skill_md: bool, is_command: bool) -> None:
+    for m in DOC_REF.finditer(text):
+        ln = line_of(text, m.start())
+        line = line_at(text, ln)
+        # Only a document the package itself ships: skills that process the
+        # user's PDFs or spreadsheets name such files all the time.
+        shipped = entry_kind(path.parent / m.group(0)) == "file" or entry_kind(rep.root / m.group(0)) == "file"
+        if shipped and DOC_FOLLOW.search(line):
+            rep.add("SKL044", path, ln, line, severity="high", extra="Markdown tells the agent to follow %s" % m.group(0))
     for m in HTML_COMMENT.finditer(text):
         content = m.group(1).strip()
         if content:
@@ -657,10 +728,19 @@ def scan_file(rep: Report, path: Path) -> None:
         return
     rep.inventory["bytes"] += size
     suffix = path.suffix.lower()
+    if suffix in DOC_EXT:
+        check_document(rep, path, size)
+        return
     if suffix in ARCHIVE_EXT or path.name.endswith((".tar.gz", ".tar.xz")):
         rep.add("SKL036", path, 0, path.name, evidence=path.name)
         return
     text, data = read_text(path)
+    if data.startswith(ZIP_MAGIC):
+        rep.add("SKL036", path, 0, path.name, evidence="%s is zip data despite its name" % path.name)
+        return
+    if data.startswith(b"%PDF-"):
+        check_document(rep, path, size)
+        return
     magic = next((label for sig, label in MAGIC if data.startswith(sig)), None)
     if suffix in BINARY_EXT or (text is None and magic):
         rep.inventory["binaries"] += 1

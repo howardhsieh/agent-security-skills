@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: howardhsieh/agent-security-skills@v0.2.1
+      - uses: howardhsieh/agent-security-skills@v0.2.2
         with:
           path: skills          # the folder that holds your skills or plugin
           fail-on: high         # critical | high | medium | low | none
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: howardhsieh/agent-security-skills@v0.2.1
+      - uses: howardhsieh/agent-security-skills@v0.2.2
         with:
           path: skills
           upload-sarif: "true"

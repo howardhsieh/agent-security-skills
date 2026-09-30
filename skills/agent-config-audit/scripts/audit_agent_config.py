@@ -37,7 +37,7 @@ except ImportError:  # pragma: no cover - exercised via monkeypatch in tests
     tomllib = None  # type: ignore
 
 TOOL = "audit_agent_config.py"
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 DOCS_VERIFIED = "2026-09-29"
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
 RANK = {s: i for i, s in enumerate(SEVERITIES)}
@@ -973,6 +973,7 @@ _RISK_RES = {k: [re.compile(p) for p in v] for k, v in RISK_PATTERNS.items()}
 # any other script, or any modified copy, is still analyzed.
 KNOWN_DEFENSIVE_SCRIPTS = {
     "b06ca514e12000298dba01ce8ee990ac9eda9685abaf9ba0ce4102483cc95bbb": "agentsec-guard 0.2.0 scripts/guard.py",    "c257ad2588717f62322eced82f429852a67f65ee7bb4430c8764ca17ff56a64a": "agentsec-guard 0.2.1 scripts/guard.py",
+    "c629e3d4e0c1d637d6722bf828eb369ca723f45f8ed40d44474981db96a21a99": "agentsec-guard 0.2.2 scripts/guard.py",
 }
 
 
