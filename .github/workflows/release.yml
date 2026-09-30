@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  release:
+    types: [published]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -45,7 +51,14 @@ jobs:
           python tools/package_skills.py --clean
           (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
 
-      - name: Create GitHub Release
+      - name: Create or update the GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
+        # A release published from the GitHub web UI creates the tag and this
+        # release at the same time; in that case attach the zips to it.
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
+          fi
