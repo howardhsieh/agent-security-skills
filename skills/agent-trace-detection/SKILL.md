@@ -5,7 +5,7 @@ license: Apache-2.0
 compatibility: Python 3.9+. sigma_check.py needs PyYAML. TraceSig rules need the tracesig package from github.com/howardhsieh/tracesig.
 metadata:
   author: howardhsieh
-  version: "0.1.0"
+  version: "0.1.1"
   repository: https://github.com/howardhsieh/agent-security-skills
 ---
 

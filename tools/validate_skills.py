@@ -32,7 +32,7 @@ try:  # Optional dependency: used only to double-check frontmatter.
 except Exception:  # pragma: no cover - depends on the environment
     _yaml = None
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.1.1"
 DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 
 # Agent Skills spec fields. CONTRIBUTING.md: anything else breaks claude.ai uploads.

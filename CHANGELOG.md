@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-29
+
+### Fixed
+
+- `tools/validate_skills.py` now detects a misnamed `skill.md` on
+  case-insensitive filesystems (macOS, Windows), where it previously passed as
+  `SKILL.md`. This made the macOS and Windows CI jobs fail on 0.1.0. The six
+  skills themselves are unchanged.
+
+### Changed
+
+- CI uses `actions/checkout` v7 and `actions/setup-python` v7.
+- The release workflow also attaches the skill zips to releases published from
+  the GitHub web UI.
+
 ## [0.1.0] - 2026-09-29
 
 Initial release: six defensive Agent Skills for teams that build and run AI
@@ -37,5 +52,6 @@ Claude Code marketplace and as per-skill zips for claude.ai.
 - Evals for each skill under `evals/`, install guide in `docs/install.md`, and
   a security policy.
 
-[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/howardhsieh/agent-security-skills/releases/tag/v0.1.0

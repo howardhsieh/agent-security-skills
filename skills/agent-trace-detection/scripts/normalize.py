@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 TOOL = "normalize"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 PREVIEW_CHARS = 300
 
 # ---------------------------------------------------------------- redaction

@@ -89,7 +89,7 @@ Auditing a plugin before install:
 
 ```text
 $ python3 skills/skill-supply-chain-audit/scripts/audit_skill.py scan ./pdf-helper-pro
-audit_skill 0.1.0  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
+audit_skill 0.1.1  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
 Inventory: 6 files, 1992 bytes; skills: pdf-helper; plugins: pdf-helper-pro; hooks: PostToolUse x1, SessionStart x1, Stop x1; ...
 
 [CRITICAL] SKL021  Downloads and executes remote code

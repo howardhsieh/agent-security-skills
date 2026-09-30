@@ -101,7 +101,7 @@ keys only after the user accepts the workspace trust dialog.
       "source": {
         "source": "github",
         "repo": "howardhsieh/agent-security-skills",
-        "ref": "v0.1.0"
+        "ref": "v0.1.1"
       }
     }
   },
@@ -179,7 +179,7 @@ npx skills add howardhsieh/agent-security-skills --skill '*' -a claude-code -g -
 Useful flags: `-g` installs to your home directory instead of the current
 project, `--copy` copies files instead of symlinking, and `-y` skips prompts.
 To pin a release, point at the tag's tree URL, for example
-`npx skills add https://github.com/howardhsieh/agent-security-skills/tree/v0.1.0/skills/agent-config-audit`.
+`npx skills add https://github.com/howardhsieh/agent-security-skills/tree/v0.1.1/skills/agent-config-audit`.
 
 Status: **Tested** from a local checkout (`--list` finds the skills;
 `--skill agent-threat-model -a claude-code -a codex -y --copy` installs to
@@ -201,8 +201,8 @@ Install one skill, all skills, or a pinned version:
 ```bash
 gh skill install howardhsieh/agent-security-skills agent-config-audit
 gh skill install howardhsieh/agent-security-skills --all
-gh skill install howardhsieh/agent-security-skills agent-config-audit@v0.1.0
-gh skill install howardhsieh/agent-security-skills agent-config-audit --pin v0.1.0
+gh skill install howardhsieh/agent-security-skills agent-config-audit@v0.1.1
+gh skill install howardhsieh/agent-security-skills agent-config-audit --pin v0.1.1
 ```
 
 By default `gh skill` installs for GitHub Copilot at project scope. Use
@@ -220,7 +220,7 @@ agent's skills directory, keeping the folder name. Get the files from a release
 (the `agent-security-skills-<version>.zip` bundle) or a pinned clone:
 
 ```bash
-git clone --depth 1 --branch v0.1.0 https://github.com/howardhsieh/agent-security-skills.git
+git clone --depth 1 --branch v0.1.1 https://github.com/howardhsieh/agent-security-skills.git
 mkdir -p ~/.agents/skills
 cp -R agent-security-skills/skills/* ~/.agents/skills/
 ```
@@ -228,7 +228,7 @@ cp -R agent-security-skills/skills/* ~/.agents/skills/
 PowerShell:
 
 ```powershell
-git clone --depth 1 --branch v0.1.0 https://github.com/howardhsieh/agent-security-skills.git
+git clone --depth 1 --branch v0.1.1 https://github.com/howardhsieh/agent-security-skills.git
 New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
 Copy-Item -Recurse agent-security-skills\skills\* "$HOME\.agents\skills\"
 ```
@@ -268,11 +268,11 @@ agents unreviewed.
 
 | Method | Pinned form |
 | --- | --- |
-| Claude Code | `/plugin marketplace add howardhsieh/agent-security-skills#v0.1.0` (also `claude plugin marketplace add ...#v0.1.0`), or `"ref": "v0.1.0"` in `extraKnownMarketplaces` |
+| Claude Code | `/plugin marketplace add howardhsieh/agent-security-skills#v0.1.1` (also `claude plugin marketplace add ...#v0.1.1`), or `"ref": "v0.1.1"` in `extraKnownMarketplaces` |
 | claude.ai | Upload zips from a specific release |
-| npx skills | A tree URL at the tag, such as `https://github.com/howardhsieh/agent-security-skills/tree/v0.1.0/skills/<skill>` |
-| gh skill | `<skill>@v0.1.0` or `--pin v0.1.0` |
-| Manual | `git clone --branch v0.1.0`, or the release bundle zip |
+| npx skills | A tree URL at the tag, such as `https://github.com/howardhsieh/agent-security-skills/tree/v0.1.1/skills/<skill>` |
+| gh skill | `<skill>@v0.1.1` or `--pin v0.1.1` |
+| Manual | `git clone --branch v0.1.1`, or the release bundle zip |
 
 Each release lists SHA-256 hashes in `SHA256SUMS.txt`, and the zips are built
 deterministically from the tagged commit.
@@ -325,7 +325,7 @@ Checked on 2026-09-29.
 | --- | --- |
 | `.claude-plugin/marketplace.json` passes `claude plugin validate --strict` (Claude Code 2.1.284 and 2.1.285) | Tested |
 | Claude Code install from a local checkout: marketplace add, plugin install, plugin details | Tested |
-| Claude Code install from `howardhsieh/agent-security-skills` (GitHub) and `#v0.1.0` pinning | Docs |
+| Claude Code install from `howardhsieh/agent-security-skills` (GitHub) and `#v0.1.1` pinning | Docs |
 | Every skill folder passes `agentskills validate` (skills-ref 0.1.1) | Tested (all six); run in CI |
 | Per-skill zip layout for claude.ai upload | Tested (layout), Docs (upload) |
 | claude.ai **Add marketplace** with this repository (no `plugin.json`) | Not tested |

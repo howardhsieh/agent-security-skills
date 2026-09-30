@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 TOOL = "audit_skill"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 SEVERITIES = ("critical", "high", "medium", "low", "info")
 RANK = {s: i for i, s in enumerate(SEVERITIES)}
 MAX_READ = 2 * 1024 * 1024  # bytes per file

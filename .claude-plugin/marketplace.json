@@ -6,7 +6,7 @@
   },
   "description": "Defensive Agent Skills for teams that build and run AI agents: audit skills and plugins before install, audit agent configuration, threat-model agent systems, review MCP servers, detect attacks in agent traces, and respond to agent incidents.",
   "metadata": {
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "plugins": [
     {
@@ -14,7 +14,7 @@
       "source": "./skills",
       "strict": false,
       "description": "Six defensive security skills for AI agents: skill and plugin supply-chain audit, agent config audit, agent threat modeling, MCP server security review, agent trace detection (Sigma-style rules), and agent incident response. Read-only scripts with no network access.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Howard Hsieh",
         "url": "https://github.com/howardhsieh"
