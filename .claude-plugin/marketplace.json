@@ -10,10 +10,9 @@
   },
   "plugins": [
     {
-      "name": "agent-security",
+      "name": "agentsec-kit",
       "source": "./skills",
-      "strict": false,
-      "description": "Six defensive security skills for AI agents: skill and plugin supply-chain audit, agent config audit, agent threat modeling, MCP server security review, agent trace detection (Sigma-style rules), and agent incident response. Read-only scripts with no network access.",
+      "description": "Defensive security skills for AI coding agents: audit skills and plugins before install, harden Claude Code/Codex/Cursor configs, threat-model agent apps, review MCP servers, detect hijacked agents in their own telemetry, and respond to agent incidents. Read-only scripts with no network access.",
       "version": "0.1.1",
       "author": {
         "name": "Howard Hsieh",
@@ -26,7 +25,7 @@
       "keywords": [
         "security",
         "ai-security",
-        "agent-security",
+        "agentsec-kit",
         "supply-chain",
         "mcp",
         "threat-modeling",
@@ -36,20 +35,12 @@
       "tags": [
         "security",
         "ai-security",
-        "agent-security",
+        "agentsec-kit",
         "supply-chain",
         "mcp",
         "threat-modeling",
         "detection",
         "incident-response"
-      ],
-      "skills": [
-        "./skill-supply-chain-audit",
-        "./agent-config-audit",
-        "./agent-threat-model",
-        "./mcp-server-security-review",
-        "./agent-trace-detection",
-        "./agent-incident-response"
       ]
     }
   ]

@@ -1012,6 +1012,20 @@ def check_marketplace(report: Report, root: Path, present: Set[str]) -> Optional
                          "%s sets strict: false and declares %s while plugin.json exists; the plugin fails to load"
                          % (where, ", ".join(declares_components)))
         skills = entry.get("skills")
+        manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
+        if skills is None and manifest_path.is_file():
+            try:
+                manifest = json.loads(read_text(manifest_path, report))
+            except ValueError as exc:
+                report.error("plugin-json", manifest_path, "invalid JSON: %s" % _one_line(exc))
+                continue
+            if isinstance(manifest, dict):
+                if manifest.get("name") != pname:
+                    report.error("plugin-json", manifest_path, "plugin.json name %r does not match the marketplace entry %r"
+                                 % (manifest.get("name"), pname))
+                if isinstance(manifest.get("version"), str) and version is None:
+                    version = manifest["version"]
+                skills = manifest.get("skills")
         if skills is None:
             continue
         if isinstance(skills, str):

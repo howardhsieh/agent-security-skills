@@ -65,7 +65,7 @@ Linux and Windows; only the Sigma checker needs PyYAML.
 
 ```text
 /plugin marketplace add howardhsieh/agent-security-skills
-/plugin install agent-security@agent-security-skills
+/plugin install agentsec-kit@agent-security-skills
 ```
 
 **Any agent** via [`npx skills`](https://github.com/vercel-labs/skills):

@@ -73,7 +73,7 @@ convert rather than point a harness at this directory.
   graders where the check is mechanical, such as a redaction marker. The command
   expects a plugin with a `plugin.json`; this repo's marketplace entry uses
   `strict: false` with no `plugin.json`, so run it against the installed plugin
-  (`agent-security@agent-security-skills`) and keep generated cases in a
+  (`agentsec-kit@agent-security-skills`) and keep generated cases in a
   subdirectory such as `evals/cases/`. This path has not been tried against this
   repo yet.
 - **Any other harness**: each file is plain JSON, so a short script can turn it

@@ -194,7 +194,7 @@ def test_folded_and_literal_descriptions_parse(tmp_path, use_pyyaml):
         "---\nname: alpha-audit\ndescription: >-\n  Audits example things for problems.\n"
         "  Use when the user asks to audit an example.\nlicense: 'Apache-2.0'\n"
         "compatibility: |\n  Python 3.9+ standard library.\nmetadata:\n  author: \"howardhsieh\"\n"
-        "  version: \"0.1.0\"  # comment\n  repository: https://github.com/howardhsieh/agent-security-skills\n---\n"
+        "  version: \"0.1.0\"  # comment\n  repository: https://github.com/howardhsieh/agentsec-kit\n---\n"
     )
     set_skill_md(root, "alpha-audit", fm)
     report = run(root, use_pyyaml)
@@ -600,10 +600,11 @@ def test_real_marketplace_json_lists_the_six_skills():
     assert data["name"] == "agent-security-skills"
     assert data["owner"]["name"] == "Howard Hsieh"
     plugin = data["plugins"][0]
-    assert plugin["name"] == "agent-security"
+    assert plugin["name"] == "agentsec-kit"
     assert plugin["source"] == "./skills"  # ship only the skills, not tests or fixtures
-    assert plugin["strict"] is False
-    assert sorted(plugin["skills"]) == sorted("./%s" % s for s in EXPECTED_SKILLS)
+    manifest = json.loads((REPO / "skills" / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
+    assert manifest["name"] == plugin["name"]
+    assert sorted(manifest["skills"]) == sorted("./%s" % s for s in EXPECTED_SKILLS)
     report = vs.Report(REPO)
     vs.check_marketplace(report, REPO, set(EXPECTED_SKILLS))
     assert report.errors == [], report.findings

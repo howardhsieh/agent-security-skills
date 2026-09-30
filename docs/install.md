@@ -44,13 +44,13 @@ checked against the vendor's documentation but not run here. See
 ## Claude Code (plugin marketplace)
 
 The repository is a Claude Code plugin marketplace named `agent-security-skills`
-with one plugin, `agent-security`, that contains all six skills.
+with one plugin, `agentsec-kit`, that contains all six skills.
 
 In a Claude Code session:
 
 ```text
 /plugin marketplace add howardhsieh/agent-security-skills
-/plugin install agent-security@agent-security-skills
+/plugin install agentsec-kit@agent-security-skills
 ```
 
 `/plugin install` opens the plugin's details in the `/plugin` panel, where you
@@ -60,7 +60,7 @@ From your shell:
 
 ```bash
 claude plugin marketplace add howardhsieh/agent-security-skills
-claude plugin install agent-security@agent-security-skills
+claude plugin install agentsec-kit@agent-security-skills
 ```
 
 `claude plugin install` installs at user scope by default. Add
@@ -71,19 +71,19 @@ On Claude Code v2.1.275 or later you can add the marketplace and install in one
 step from a session:
 
 ```text
-/plugin install agent-security --marketplace howardhsieh/agent-security-skills
+/plugin install agentsec-kit --marketplace howardhsieh/agent-security-skills
 ```
 
 Check that it loaded:
 
 ```bash
 claude plugin list
-claude plugin details agent-security
+claude plugin details agentsec-kit
 ```
 
 `details` lists the skills under `Component inventory`. Plugin skills are
 namespaced, so you can also run one directly, for example
-`/agent-security:agent-config-audit`. Normally Claude picks the skill from your
+`/agentsec-kit:agent-config-audit`. Normally Claude picks the skill from your
 request.
 
 To try the skills without the plugin, copy folders into your personal skills
@@ -106,7 +106,7 @@ keys only after the user accepts the workspace trust dialog.
     }
   },
   "enabledPlugins": {
-    "agent-security@agent-security-skills": true
+    "agentsec-kit@agent-security-skills": true
   }
 }
 ```
@@ -283,8 +283,8 @@ Claude Code:
 
 ```bash
 claude plugin marketplace update agent-security-skills
-claude plugin update agent-security@agent-security-skills
-claude plugin uninstall agent-security@agent-security-skills
+claude plugin update agentsec-kit@agent-security-skills
+claude plugin uninstall agentsec-kit@agent-security-skills
 claude plugin marketplace remove agent-security-skills
 ```
 
@@ -300,11 +300,11 @@ or replace or delete the copied folders. On claude.ai, delete the old skill in
 
 ## Troubleshooting
 
-- **Plugin installs but a skill is missing.** Run `claude plugin details agent-security`.
+- **Plugin installs but a skill is missing.** Run `claude plugin details agentsec-kit`.
   Each skill folder must contain `SKILL.md`; run
   `python3 tools/validate_skills.py` in a checkout to see what is wrong.
 - **`Plugin "..." not found in marketplace`.** Install by the entry name,
-  `agent-security@agent-security-skills`.
+  `agentsec-kit@agent-security-skills`.
 - **Skill does not trigger.** Ask for the task in plain words ("audit my Claude
   Code settings"), or invoke the skill by name. The `evals/` folder lists
   prompts each skill should and should not respond to.
