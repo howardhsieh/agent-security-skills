@@ -2,7 +2,7 @@
 name: agent-trace-detection
 description: Builds and runs detections over AI coding-agent activity - normalizes Claude Code session transcripts and OpenTelemetry exports, runs bundled Sigma rules (for SIEMs) and TraceSig rules (provenance-aware, e.g. secret read then network call, untrusted content then publish), and guides writing and testing new agent detections. Use to set up monitoring for coding-agent fleets, hunt through local transcripts after a suspicious session, or write detection rules for agent tool calls.
 license: Apache-2.0
-compatibility: Python 3.9+. sigma_check.py needs PyYAML. TraceSig rules need the tracesig package from github.com/howardhsieh/tracesig.
+compatibility: Python 3.9+. sigma_check.py needs PyYAML. TraceSig rules need the tracesig package (0.2.0+) from github.com/howardhsieh/tracesig.
 metadata:
   author: howardhsieh
   version: "0.2.0"
@@ -116,10 +116,15 @@ python3 "$S/scripts/normalize.py" otel-export.json --format flat --out "$W/flat.
 TraceSig rules (provenance chains, in `assets/tracesig/`):
 
 ```bash
-pip install "git+https://github.com/howardhsieh/tracesig@773e019a4fd84a6a8ca17acb1ba4b51076abe82c"
+pip install "git+https://github.com/howardhsieh/tracesig@f9b498521b583eb153ece19f08b0af31c8b52be0"   # TraceSig 0.2.0
 tracesig scan "$W/trace.jsonl" --rules "$S/assets/tracesig/"
 tracesig scan "$W/trace.jsonl" --rules "$S/assets/tracesig/" --fail-on critical   # CI
 ```
+
+TraceSig 0.2.0 also reads transcripts directly and bundles these rules as its
+`claude-code` pack: `tracesig scan ~/.claude/projects/PROJECT/` gives the same
+findings without the normalize step. It reads agent-policy-gateway audit
+exports too (`apg audit export audit.jsonl --format tracesig`).
 
 | ID | Severity | Chain |
 |---|---|---|
