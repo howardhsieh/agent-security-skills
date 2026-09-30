@@ -27,7 +27,7 @@ import zipfile
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.2.0"
 DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 BUNDLE_PREFIX = "agent-security-skills"
 

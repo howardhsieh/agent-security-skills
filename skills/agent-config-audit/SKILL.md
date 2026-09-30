@@ -4,7 +4,7 @@ description: Audits local AI coding-agent configuration (Claude Code settings, p
 license: Apache-2.0
 metadata:
   author: howardhsieh
-  version: "0.1.1"
+  version: "0.2.0"
   repository: https://github.com/howardhsieh/agent-security-skills
 ---
 

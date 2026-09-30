@@ -6,6 +6,42 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-30
+
+### Added
+
+- `agent-security-checkup` skill: one command grades the whole agent setup
+  (Claude Code, Codex and Cursor configuration, every installed skill and
+  plugin, MCP servers) from A to F, lists top risks and quick wins, and writes
+  a self-contained, shareable HTML report. `--json`, `--md` and
+  `--fail-below` for scripts.
+- `agentsec-guard`, an optional second plugin in the marketplace: PreToolUse,
+  PostToolUse and SessionStart hooks that deny download-and-execute commands,
+  ask before credential-store reads, agent-config edits and sandbox bypass,
+  ask before push or publish shortly after the session read web or MCP
+  content, and warn when installed packages change. Never returns "allow";
+  fails open; no network.
+- GitHub Action (`action.yml`): audits skills, plugins and marketplaces in CI
+  with a severity gate, baseline support, a job summary and optional SARIF
+  upload to code scanning. Badge and usage in `docs/github-action.md`.
+- `audit_skill.py scan|diff --sarif FILE` writes SARIF 2.1.0 with
+  security-severity and stable fingerprints.
+- Social preview and checkup screenshots under `docs/assets/`.
+
+### Changed
+
+- The plugin is now named `agentsec-kit` (install with
+  `/plugin install agentsec-kit@agent-security-skills`); the repository and
+  marketplace names are unchanged.
+- README: quick start, the three ways to use the pack, and how it fits with
+  agent-policy-gateway and TraceSig.
+
+### Fixed
+
+- README and docs now state the correct check count for
+  `skill-supply-chain-audit` (32, including SKL039 for symlinks and special
+  files) and the correct number of skills.
+
 ## [0.1.1] - 2026-09-29
 
 ### Fixed
@@ -52,6 +88,7 @@ Claude Code marketplace and as per-skill zips for claude.ai.
 - Evals for each skill under `evals/`, install guide in `docs/install.md`, and
   a security policy.
 
-[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/howardhsieh/agent-security-skills/releases/tag/v0.1.0

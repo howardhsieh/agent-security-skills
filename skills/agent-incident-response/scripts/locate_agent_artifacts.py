@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Sequence, Set, Tuple
 
 TOOL = "locate_agent_artifacts"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 SEVERITIES = ("critical", "high", "medium", "low", "info")
 _SEV_RANK = {s: i for i, s in enumerate(SEVERITIES)}
 

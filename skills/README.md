@@ -1,7 +1,8 @@
 # agentsec-kit (plugin folder)
 
-This folder is the `agentsec-kit` Claude Code plugin: six defensive Agent Skills
-for people who run AI coding agents. They audit skills and plugins before you
+This folder is the `agentsec-kit` Claude Code plugin: seven defensive Agent Skills
+for people who run AI coding agents. They grade your whole agent setup A to F,
+audit skills and plugins before you
 install them, harden Claude Code, Codex and Cursor configuration, threat-model
 agent applications, review MCP servers, detect hijacked agents in their own
 telemetry, and guide incident response.

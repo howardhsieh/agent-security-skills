@@ -1,7 +1,7 @@
 {
   "name": "agentsec-guard",
   "displayName": "agentsec-guard",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Optional runtime guardrails for Claude Code: blocks download-and-execute, asks before credential access, before publish or force-push right after untrusted web/MCP content, and before the agent edits its own config; warns when installed plugins change. Local checks only, no network.",
   "author": {"name": "Howard Hsieh", "url": "https://github.com/howardhsieh"},
   "homepage": "https://github.com/howardhsieh/agent-security-skills",

@@ -6,14 +6,14 @@
   },
   "description": "Defensive Agent Skills for teams that build and run AI agents: audit skills and plugins before install, audit agent configuration, threat-model agent systems, review MCP servers, detect attacks in agent traces, and respond to agent incidents.",
   "metadata": {
-    "version": "0.1.1"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "agentsec-kit",
       "source": "./skills",
       "description": "Defensive security skills for AI coding agents: audit skills and plugins before install, harden Claude Code/Codex/Cursor configs, threat-model agent apps, review MCP servers, detect hijacked agents in their own telemetry, and respond to agent incidents. Read-only scripts with no network access.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Howard Hsieh",
         "url": "https://github.com/howardhsieh"
@@ -47,7 +47,7 @@
       "name": "agentsec-guard",
       "source": "./plugins/agentsec-guard",
       "description": "Optional runtime guardrails (hooks): blocks download-and-execute, asks before credential access, before publish or force-push right after untrusted web/MCP content, and before the agent edits its own config; warns when installed plugins change. Local checks only, no network.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Howard Hsieh",
         "url": "https://github.com/howardhsieh"

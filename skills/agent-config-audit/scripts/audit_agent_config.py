@@ -36,7 +36,7 @@ except ImportError:  # pragma: no cover - exercised via monkeypatch in tests
     tomllib = None  # type: ignore
 
 TOOL = "audit_agent_config.py"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 DOCS_VERIFIED = "2026-09-29"
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
 RANK = {s: i for i, s in enumerate(SEVERITIES)}

@@ -1,12 +1,14 @@
 # Installing agent-security-skills
 
-The repository holds six Agent Skills under `skills/`. You can install them as
+The repository holds seven Agent Skills under `skills/` and an optional
+runtime guard plugin under `plugins/`. You can install the skills as
 one Claude Code plugin, as individual skills on claude.ai, or as plain skill
 folders for any agent that supports the
 [Agent Skills specification](https://agentskills.io/specification).
 
 | Skill | What it does |
 | --- | --- |
+| `agent-security-checkup` | One-command checkup of your whole agent setup, graded A to F, with an HTML report |
 | `skill-supply-chain-audit` | Audits skills, plugins and marketplaces before install or update |
 | `agent-config-audit` | Audits Claude Code, Codex and Cursor configuration for risky settings |
 | `agent-threat-model` | Threat-models LLM and agent systems |
@@ -44,13 +46,19 @@ checked against the vendor's documentation but not run here. See
 ## Claude Code (plugin marketplace)
 
 The repository is a Claude Code plugin marketplace named `agent-security-skills`
-with one plugin, `agentsec-kit`, that contains all six skills.
+with two plugins:
+
+- `agentsec-kit`: all seven skills.
+- `agentsec-guard` (optional): runtime guardrail hooks. See
+  [plugins/agentsec-guard](../plugins/agentsec-guard/README.md) for exactly
+  what runs.
 
 In a Claude Code session:
 
 ```text
 /plugin marketplace add howardhsieh/agent-security-skills
 /plugin install agentsec-kit@agent-security-skills
+/plugin install agentsec-guard@agent-security-skills   # optional
 ```
 
 `/plugin install` opens the plugin's details in the `/plugin` panel, where you
@@ -61,6 +69,7 @@ From your shell:
 ```bash
 claude plugin marketplace add howardhsieh/agent-security-skills
 claude plugin install agentsec-kit@agent-security-skills
+claude plugin install agentsec-guard@agent-security-skills   # optional
 ```
 
 `claude plugin install` installs at user scope by default. Add
@@ -101,7 +110,7 @@ keys only after the user accepts the workspace trust dialog.
       "source": {
         "source": "github",
         "repo": "howardhsieh/agent-security-skills",
-        "ref": "v0.1.1"
+        "ref": "v0.2.0"
       }
     }
   },
@@ -179,7 +188,7 @@ npx skills add howardhsieh/agent-security-skills --skill '*' -a claude-code -g -
 Useful flags: `-g` installs to your home directory instead of the current
 project, `--copy` copies files instead of symlinking, and `-y` skips prompts.
 To pin a release, point at the tag's tree URL, for example
-`npx skills add https://github.com/howardhsieh/agent-security-skills/tree/v0.1.1/skills/agent-config-audit`.
+`npx skills add https://github.com/howardhsieh/agent-security-skills/tree/v0.2.0/skills/agent-config-audit`.
 
 Status: **Tested** from a local checkout (`--list` finds the skills;
 `--skill agent-threat-model -a claude-code -a codex -y --copy` installs to
@@ -201,8 +210,8 @@ Install one skill, all skills, or a pinned version:
 ```bash
 gh skill install howardhsieh/agent-security-skills agent-config-audit
 gh skill install howardhsieh/agent-security-skills --all
-gh skill install howardhsieh/agent-security-skills agent-config-audit@v0.1.1
-gh skill install howardhsieh/agent-security-skills agent-config-audit --pin v0.1.1
+gh skill install howardhsieh/agent-security-skills agent-config-audit@v0.2.0
+gh skill install howardhsieh/agent-security-skills agent-config-audit --pin v0.2.0
 ```
 
 By default `gh skill` installs for GitHub Copilot at project scope. Use
@@ -220,7 +229,7 @@ agent's skills directory, keeping the folder name. Get the files from a release
 (the `agent-security-skills-<version>.zip` bundle) or a pinned clone:
 
 ```bash
-git clone --depth 1 --branch v0.1.1 https://github.com/howardhsieh/agent-security-skills.git
+git clone --depth 1 --branch v0.2.0 https://github.com/howardhsieh/agent-security-skills.git
 mkdir -p ~/.agents/skills
 cp -R agent-security-skills/skills/* ~/.agents/skills/
 ```
@@ -228,7 +237,7 @@ cp -R agent-security-skills/skills/* ~/.agents/skills/
 PowerShell:
 
 ```powershell
-git clone --depth 1 --branch v0.1.1 https://github.com/howardhsieh/agent-security-skills.git
+git clone --depth 1 --branch v0.2.0 https://github.com/howardhsieh/agent-security-skills.git
 New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
 Copy-Item -Recurse agent-security-skills\skills\* "$HOME\.agents\skills\"
 ```
@@ -268,11 +277,11 @@ agents unreviewed.
 
 | Method | Pinned form |
 | --- | --- |
-| Claude Code | `/plugin marketplace add howardhsieh/agent-security-skills#v0.1.1` (also `claude plugin marketplace add ...#v0.1.1`), or `"ref": "v0.1.1"` in `extraKnownMarketplaces` |
+| Claude Code | `/plugin marketplace add howardhsieh/agent-security-skills#v0.2.0` (also `claude plugin marketplace add ...#v0.2.0`), or `"ref": "v0.2.0"` in `extraKnownMarketplaces` |
 | claude.ai | Upload zips from a specific release |
-| npx skills | A tree URL at the tag, such as `https://github.com/howardhsieh/agent-security-skills/tree/v0.1.1/skills/<skill>` |
-| gh skill | `<skill>@v0.1.1` or `--pin v0.1.1` |
-| Manual | `git clone --branch v0.1.1`, or the release bundle zip |
+| npx skills | A tree URL at the tag, such as `https://github.com/howardhsieh/agent-security-skills/tree/v0.2.0/skills/<skill>` |
+| gh skill | `<skill>@v0.2.0` or `--pin v0.2.0` |
+| Manual | `git clone --branch v0.2.0`, or the release bundle zip |
 
 Each release lists SHA-256 hashes in `SHA256SUMS.txt`, and the zips are built
 deterministically from the tagged commit.
@@ -285,6 +294,7 @@ Claude Code:
 claude plugin marketplace update agent-security-skills
 claude plugin update agentsec-kit@agent-security-skills
 claude plugin uninstall agentsec-kit@agent-security-skills
+claude plugin uninstall agentsec-guard@agent-security-skills
 claude plugin marketplace remove agent-security-skills
 ```
 
@@ -325,8 +335,8 @@ Checked on 2026-09-29.
 | --- | --- |
 | `.claude-plugin/marketplace.json` passes `claude plugin validate --strict` (Claude Code 2.1.284 and 2.1.285) | Tested |
 | Claude Code install from a local checkout: marketplace add, plugin install, plugin details | Tested |
-| Claude Code install from `howardhsieh/agent-security-skills` (GitHub) and `#v0.1.1` pinning | Docs |
-| Every skill folder passes `agentskills validate` (skills-ref 0.1.1) | Tested (all six); run in CI |
+| Claude Code install from `howardhsieh/agent-security-skills` (GitHub) and `#v0.2.0` pinning | Docs |
+| Every skill folder passes `agentskills validate` (skills-ref 0.1.1) | Tested (all seven); run in CI |
 | Per-skill zip layout for claude.ai upload | Tested (layout), Docs (upload) |
 | claude.ai **Add marketplace** with this repository (no `plugin.json`) | Not tested |
 | `npx skills add` discovery and install from a local checkout | Tested |

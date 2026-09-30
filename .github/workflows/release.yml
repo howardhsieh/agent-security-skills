@@ -1,14 +1,21 @@
 name: Release
 
+# Three ways to cut a release; all build the same zips:
+#   1. Bump the version in .claude-plugin/marketplace.json on main. If no tag
+#      v<version> exists yet, this workflow creates the tag and the release.
+#   2. Push a v* tag.
+#   3. Publish a release from the GitHub web UI.
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
+    paths: [".claude-plugin/marketplace.json"]
+    tags: ["v*"]
   release:
     types: [published]
+  workflow_dispatch:
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release
   cancel-in-progress: false
 
 permissions:
@@ -28,37 +35,76 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Decide the tag
+        id: tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          version="$(python -c 'import json; d = json.load(open(".claude-plugin/marketplace.json", encoding="utf-8")); print(d["plugins"][0]["version"])')"
+          if [ "$EVENT" = "release" ] || [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            tag="$GITHUB_REF_NAME"
+          else
+            tag="v${version}"
+          fi
+          if [ "v${version}" != "${tag}" ]; then
+            echo "::error::tag ${tag} does not match plugin version ${version} in .claude-plugin/marketplace.json"
+            exit 1
+          fi
+          skip=false
+          if [ "$EVENT" = "push" ] && [ "$GITHUB_REF_TYPE" = "branch" ] && gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists; nothing to do."
+            skip=true
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "skip=$skip" >> "$GITHUB_OUTPUT"
+
       - name: Validate before packaging
+        if: steps.tag.outputs.skip != 'true'
         run: python tools/validate_skills.py
 
       - name: Run tests before packaging
+        if: steps.tag.outputs.skip != 'true'
         run: |
           python -m pip install pytest pyyaml
           python -m pytest -q
 
-      - name: Check the tag matches the plugin version
-        run: |
-          version="$(python -c 'import json; d = json.load(open(".claude-plugin/marketplace.json", encoding="utf-8")); print(d["plugins"][0]["version"])')"
-          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
-            echo "::error::tag ${GITHUB_REF_NAME} does not match plugin version ${version} in .claude-plugin/marketplace.json"
-            exit 1
-          fi
-
       - name: Build dist/*.zip
+        if: steps.tag.outputs.skip != 'true'
         run: |
-          # Deterministic timestamps: use the tagged commit's time.
+          # Deterministic timestamps: use the released commit's time.
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           python tools/package_skills.py --clean
           (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
 
+      - name: Release notes from CHANGELOG.md
+        if: steps.tag.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          python - <<'PY'
+          import os, re
+          version = os.environ["VERSION"]
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          m = re.search(r"^## \[%s\][^\n]*\n(.*?)(?=^## \[|\Z)" % re.escape(version), text, re.S | re.M)
+          body = (m.group(1).strip() if m else "See CHANGELOG.md.")
+          body += "\n\n**Install:** `/plugin marketplace add howardhsieh/agent-security-skills` then `/plugin install agentsec-kit@agent-security-skills`. Per-skill zips for claude.ai are attached; hashes in `SHA256SUMS.txt`."
+          open("dist/NOTES.md", "w", encoding="utf-8").write(body + "\n")
+          PY
+
       - name: Create or update the GitHub Release
+        if: steps.tag.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # A release published from the GitHub web UI creates the tag and this
-        # release at the same time; in that case attach the zips to it.
+          TAG: ${{ steps.tag.outputs.tag }}
+        # A release published from the web UI already exists: attach the zips.
+        # Otherwise create it; on a version bump this also creates the tag at
+        # the commit that was just tested.
         run: |
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --clobber
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/*.zip dist/SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
+            gh release create "$TAG" dist/*.zip dist/SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" --title "$TAG" --notes-file dist/NOTES.md
           fi

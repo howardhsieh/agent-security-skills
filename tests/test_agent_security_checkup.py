@@ -105,7 +105,7 @@ def test_missing_siblings_degrade_gracefully(tmp_path):
 def test_own_pack_is_not_penalized(tmp_path):
     home = tmp_path / "home"
     home.mkdir()
-    cache = home / ".claude" / "plugins" / "cache" / "agent-security-skills" / "agentsec-kit" / "0.1.1"
+    cache = home / ".claude" / "plugins" / "cache" / "agent-security-skills" / "agentsec-kit" / "0.2.0"
     shutil.copytree(ROOT / "skills", cache)
     rep = checkup(home, tmp_path)
     own = next(p for p in rep["packages"] if p["name"] == "agentsec-kit@agent-security-skills")
