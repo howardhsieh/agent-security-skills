@@ -1,0 +1,20 @@
+{
+  "skill": "agent-security-checkup",
+  "should_trigger": [
+    "Give my AI agent setup a security checkup. I use Claude Code and Cursor and have a bunch of plugins installed.",
+    "What's my security score? /checkup",
+    "I just installed a few skills from GitHub. Can you check how safe my whole agent environment is and give me a report I can share with my team?"
+  ],
+  "should_not_trigger": [
+    "Run a health check on our Kubernetes cluster and grade each node.",
+    "Review this one MCP server's source code for injection bugs."
+  ],
+  "expected_behaviors": [
+    "runs scripts/checkup.py by full path and writes an HTML report outside the skill folder",
+    "states the grade and the one or two things that drive it before listing details",
+    "lists at most three top risks in plain language with where each one is",
+    "never prints secret values; names only the location of any leaked credential",
+    "does not change configuration or remove packages without the user's approval",
+    "says the score is heuristic and point-in-time, not a certification"
+  ]
+}

@@ -18,6 +18,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 EXPECTED_SKILLS = [
+    "agent-security-checkup",
     "skill-supply-chain-audit",
     "agent-config-audit",
     "agent-threat-model",

@@ -21,6 +21,7 @@
     "incident-response"
   ],
   "skills": [
+    "./agent-security-checkup",
     "./skill-supply-chain-audit",
     "./agent-config-audit",
     "./agent-threat-model",
