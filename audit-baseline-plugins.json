@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "tool": "audit_skill",
+  "generated_at": "2026-09-30T05:09:53Z",
+  "accepted": [
+    {
+      "id": "SKL013",
+      "path": "agentsec-guard/README.md",
+      "line_sha256": "f15be59898c455db09a9962e0057a91ffc4147cf046f1d54c6be563eab337245",
+      "title": "Instructions ask the agent to weaken safety, override instructions or act covertly",
+      "location": "agentsec-guard/README.md:16",
+      "reason": "Documented guard behavior in the plugin's own docs; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL020",
+      "path": "agentsec-guard/hooks/hooks.json",
+      "line_sha256": "b34a36cadbe3d055ac3f920951294684eb74b7c25a50b9d8a8140b421d7cba0c",
+      "title": "Hook registered",
+      "location": "agentsec-guard/hooks/hooks.json",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL022",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "d98afbff03d9303fc229b728843d3b4828b5163a138fbe0a9bee827894ff7240",
+      "title": "Hook sends data to a remote host or reads credentials (credentials)",
+      "location": "agentsec-guard/scripts/guard.py:66",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL022",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "288c4ed886b9c2bd1f68cfd7f57225dd25f7512fe21289faf19a8eb3a247364f",
+      "title": "Hook sends data to a remote host or reads credentials (credentials)",
+      "location": "agentsec-guard/scripts/guard.py:67",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL022",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "cfbe8aa42e83749faa5e33ec7586c59b2662812e7c4e2a7684324b0add58c4f9",
+      "title": "Hook sends data to a remote host or reads credentials (credentials)",
+      "location": "agentsec-guard/scripts/guard.py:71",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL022",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "d448192ee25f37ccb481abcfd350ffee852c98a4ecdb8d8b0ad9d8e3bc7a45b0",
+      "title": "Hook sends data to a remote host or reads credentials (credentials)",
+      "location": "agentsec-guard/scripts/guard.py:72",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL020",
+      "path": "agentsec-guard/hooks/hooks.json",
+      "line_sha256": "3a157bc06c9732d236d3408f21a31a4008fae36fd64b06f8274d75f6e547a5bf",
+      "title": "Hook registered",
+      "location": "agentsec-guard/hooks/hooks.json",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL020",
+      "path": "agentsec-guard/hooks/hooks.json",
+      "line_sha256": "7e0d299a3457473dbde16981996c59bf5a4e8925c110256cb166e697ae272fa8",
+      "title": "Hook registered",
+      "location": "agentsec-guard/hooks/hooks.json",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL030",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "503d3b7eb42cf572a6c00877d1deff25327e9cae62c7d00336c76acd2694b4b1",
+      "title": "Script makes network calls",
+      "location": "agentsec-guard/scripts/guard.py:60",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL031",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "503d3b7eb42cf572a6c00877d1deff25327e9cae62c7d00336c76acd2694b4b1",
+      "title": "Script executes dynamically built code or uses a shell",
+      "location": "agentsec-guard/scripts/guard.py:60",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL030",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "eecc100feb39a0bb728d743436c4ace75ceabc069586fe058e4c07a7e06e3e34",
+      "title": "Script makes network calls",
+      "location": "agentsec-guard/scripts/guard.py:61",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL030",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "acd8489addf93965de9d3e0319d8e6cd2af5e7647f348c3f462fcbfbbf4e6566",
+      "title": "Script makes network calls",
+      "location": "agentsec-guard/scripts/guard.py:62",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL030",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "742a73fc4e86131f9475a094008d5d22cb816ac49af050eeb5c197309e514dbb",
+      "title": "Script makes network calls",
+      "location": "agentsec-guard/scripts/guard.py:63",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL031",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "742a73fc4e86131f9475a094008d5d22cb816ac49af050eeb5c197309e514dbb",
+      "title": "Script executes dynamically built code or uses a shell",
+      "location": "agentsec-guard/scripts/guard.py:63",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL032",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "d98afbff03d9303fc229b728843d3b4828b5163a138fbe0a9bee827894ff7240",
+      "title": "Script references credential stores or secret variables",
+      "location": "agentsec-guard/scripts/guard.py:66",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL032",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "288c4ed886b9c2bd1f68cfd7f57225dd25f7512fe21289faf19a8eb3a247364f",
+      "title": "Script references credential stores or secret variables",
+      "location": "agentsec-guard/scripts/guard.py:67",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL032",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "cfbe8aa42e83749faa5e33ec7586c59b2662812e7c4e2a7684324b0add58c4f9",
+      "title": "Script references credential stores or secret variables",
+      "location": "agentsec-guard/scripts/guard.py:71",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    },
+    {
+      "id": "SKL032",
+      "path": "agentsec-guard/scripts/guard.py",
+      "line_sha256": "d448192ee25f37ccb481abcfd350ffee852c98a4ecdb8d8b0ad9d8e3bc7a45b0",
+      "title": "Script references credential stores or secret variables",
+      "location": "agentsec-guard/scripts/guard.py:72",
+      "reason": "Detection patterns and path lists inside the agentsec-guard hook script, or its own documented hook registration; reviewed 2026-09-29."
+    }
+  ],
+  "note": "Accepted findings from running skill-supply-chain-audit on this repository's plugins (agentsec-guard). Any new or changed line is re-reported in CI."
+}

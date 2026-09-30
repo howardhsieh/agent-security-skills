@@ -783,6 +783,53 @@ def emit(report: Dict[str, Any], args: argparse.Namespace) -> int:
     return 0
 
 
+# ---------------------------------------------------------------- SARIF
+
+SARIF_LEVEL = {"critical": "error", "high": "error", "medium": "warning", "low": "note", "info": "note"}
+SECURITY_SEVERITY = {"critical": "9.5", "high": "8.0", "medium": "5.5", "low": "3.0", "info": "0.0"}
+REPO_URL = "https://github.com/howardhsieh/agent-security-skills"
+
+
+def write_sarif(path: str, rep: Report, baseline: set, uri_prefix: str = "") -> int:
+    """Write SARIF 2.1.0 for GitHub code scanning; baseline-suppressed findings are omitted."""
+    kept = [f for f in rep.findings if f["_key"] not in baseline]
+    rules, index = [], {}
+    for cid in sorted(CHECKS):
+        sev, title, fix, refs = CHECKS[cid]
+        index[cid] = len(rules)
+        rules.append({
+            "id": cid, "name": re.sub(r"[^A-Za-z0-9]+", "", title.title())[:60] or cid,
+            "shortDescription": {"text": title}, "fullDescription": {"text": title},
+            "help": {"text": fix + (" References: " + "; ".join(refs) if refs else "")},
+            "defaultConfiguration": {"level": SARIF_LEVEL[sev]},
+            "properties": {"tags": ["security", "supply-chain", "agent-skills"], "security-severity": SECURITY_SEVERITY[sev],
+                           "precision": "medium"},
+        })
+    prefix = uri_prefix.strip().strip("/").replace("\\", "/")
+    prefix = "" if prefix in ("", ".") else prefix + "/"
+    results = []
+    for f in sorted(kept, key=lambda x: (RANK[x["severity"]], x["id"], x["location"])):
+        loc = f["location"]
+        m = re.match(r"^(.*?):(\d+)$", loc)
+        file_part, line = (m.group(1), int(m.group(2))) if m else (loc, 0)
+        phys = {"artifactLocation": {"uri": prefix + file_part, "uriBaseId": "%SRCROOT%"}}
+        if line > 0:
+            phys["region"] = {"startLine": line}
+        results.append({
+            "ruleId": f["id"], "ruleIndex": index[f["id"]], "level": SARIF_LEVEL[f["severity"]],
+            "message": {"text": "%s: %s" % (f["title"], f["evidence"])},
+            "locations": [{"physicalLocation": phys}],
+            "partialFingerprints": {"agentsecFindingKey/v1": sha256_bytes(f["_key"].encode("utf-8"))},
+            "properties": {"severity": f["severity"]},
+        })
+    doc = {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0",
+           "runs": [{"tool": {"driver": {"name": "agentsec-kit skill-supply-chain-audit", "version": VERSION,
+                                         "informationUri": REPO_URL, "rules": rules}},
+                     "results": results}]}
+    Path(path).write_text(redact(json.dumps(doc, indent=2)) + "\n", encoding="utf-8")
+    return len(results)
+
+
 # ---------------------------------------------------------------- lock / diff
 
 def file_hashes(root: Path) -> Dict[str, str]:
@@ -887,9 +934,12 @@ def cmd_diff(args: argparse.Namespace) -> int:
             scan_file(rep, base / rel)
         else:
             rep.add("SKL039", base / rel, 0, "%s %s" % (kind, rel), evidence="%s (not read)" % ("symlink" if kind == "link" else "special file"))
-    report = finalize(rep, str(root), load_baseline(args.baseline),
+    baseline = load_baseline(args.baseline)
+    report = finalize(rep, str(root), baseline,
                       {"changes": {"added": added, "modified": modified, "removed": removed},
                        "lock": {"file": args.lock, "generated_at": lock.get("generated_at"), "git_commit": lock.get("git_commit")}})
+    if args.sarif:
+        write_sarif(args.sarif, rep, baseline, args.sarif_uri_prefix)
     return emit(report, args)
 
 
@@ -903,7 +953,10 @@ def cmd_scan(args: argparse.Namespace) -> int:
     if args.write_baseline:
         write_baseline(args.write_baseline, rep.findings)
         sys.stderr.write("Wrote %d accepted findings to %s; add a reason to each.\n" % (len(rep.findings), args.write_baseline))
-    report = finalize(rep, str(root), load_baseline(args.baseline))
+    baseline = load_baseline(args.baseline)
+    report = finalize(rep, str(root), baseline)
+    if args.sarif:
+        write_sarif(args.sarif, rep, baseline, args.sarif_uri_prefix)
     return emit(report, args)
 
 
@@ -916,6 +969,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         p.add_argument("--fail-on", choices=["critical", "high", "medium", "low"], help="exit 2 if any finding is at or above this severity")
         p.add_argument("--quiet", action="store_true", help="hide info findings in text output")
         p.add_argument("--baseline", help="JSON file of accepted findings to suppress")
+        p.add_argument("--sarif", metavar="FILE", help="also write SARIF 2.1.0 (for GitHub code scanning) to FILE")
+        p.add_argument("--sarif-uri-prefix", default="", metavar="DIR",
+                       help="prefix SARIF file paths with DIR (the scanned path relative to the repository root)")
 
     p_scan = sub.add_parser("scan", help="inventory and findings for a skill, plugin or repo")
     p_scan.add_argument("path")

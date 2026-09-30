@@ -131,3 +131,44 @@ jobs:
             exit 1
           fi
           python skills/agent-trace-detection/scripts/sigma_check.py validate "${rules[@]}"
+
+  action-dogfood:
+    name: GitHub Action (dogfood)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Audit this repository's skills with the action
+        uses: ./
+        with:
+          path: skills
+          baseline: audit-baseline.json
+          fail-on: high
+
+      - name: Audit this repository's plugins with the action
+        uses: ./
+        with:
+          path: plugins
+          baseline: audit-baseline-plugins.json
+          fail-on: high
+
+      - name: Run the action on a deliberately risky fixture
+        id: risky
+        continue-on-error: true
+        uses: ./
+        with:
+          path: tests/fixtures/skill-supply-chain-audit/risky-plugin
+          fail-on: critical
+
+      - name: The gate must have failed on the risky fixture
+        shell: bash
+        env:
+          OUTCOME: ${{ steps.risky.outcome }}
+          CRITICAL: ${{ steps.risky.outputs.critical }}
+        run: |
+          echo "outcome=$OUTCOME critical=$CRITICAL"
+          test "$OUTCOME" = "failure"
+          test "$CRITICAL" -gt 0

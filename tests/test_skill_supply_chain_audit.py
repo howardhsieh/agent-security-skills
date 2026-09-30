@@ -252,3 +252,67 @@ def test_binary_and_archive_checks(tmp_path):
     (skill / "bundle.zip").write_bytes(b"PK\x03\x04" + b"\x00" * 26)
     rep = scan_json(skill)
     assert {"SKL035", "SKL036"} <= ids(rep)
+
+
+def test_sarif_output_is_valid_and_redacted(tmp_path):
+    out = tmp_path / "audit.sarif"
+    proc = run("scan", str(FIX / "risky-plugin"), "--json", "--sarif", str(out),
+               "--sarif-uri-prefix", "tests/fixtures/skill-supply-chain-audit/risky-plugin")
+    assert proc.returncode == 0, proc.stderr
+    report = json.loads(proc.stdout)
+    text = out.read_text(encoding="utf-8")
+    assert FAKE not in text
+    doc = json.loads(text)
+    assert doc["version"] == "2.1.0"
+    run0 = doc["runs"][0]
+    rules = run0["tool"]["driver"]["rules"]
+    rule_ids = [r["id"] for r in rules]
+    assert rule_ids == sorted(rule_ids) and len(rule_ids) == len(set(rule_ids))
+    assert len(run0["results"]) == len(report["findings"])
+    for res in run0["results"]:
+        assert rules[res["ruleIndex"]]["id"] == res["ruleId"]
+        assert res["level"] in ("error", "warning", "note")
+        uri = res["locations"][0]["physicalLocation"]["artifactLocation"]["uri"]
+        assert uri.startswith("tests/fixtures/skill-supply-chain-audit/risky-plugin/")
+        assert "\\" not in uri
+        assert res["partialFingerprints"]["agentsecFindingKey/v1"]
+    for rule in rules:
+        assert float(rule["properties"]["security-severity"]) >= 0
+
+
+def test_sarif_respects_baseline(tmp_path):
+    base = tmp_path / "base.json"
+    run("scan", str(FIX / "risky-plugin"), "--write-baseline", str(base))
+    out = tmp_path / "audit.sarif"
+    proc = run("scan", str(FIX / "risky-plugin"), "--baseline", str(base), "--sarif", str(out))
+    assert proc.returncode == 0, proc.stderr
+    assert json.loads(out.read_text(encoding="utf-8"))["runs"][0]["results"] == []
+
+
+def test_action_summary_outputs(tmp_path):
+    report_file = tmp_path / "r.json"
+    proc = run("scan", str(FIX / "risky-plugin"), "--json")
+    report_file.write_text(proc.stdout, encoding="utf-8")
+    gh_out, gh_sum = tmp_path / "out.txt", tmp_path / "sum.md"
+    env = {"GITHUB_OUTPUT": str(gh_out), "GITHUB_STEP_SUMMARY": str(gh_sum), "AUDIT_PATH": "risky-plugin",
+           "PATH": "", "SYSTEMROOT": __import__("os").environ.get("SYSTEMROOT", "")}
+    res = subprocess.run([sys.executable, str(ROOT / "tools" / "action_summary.py"), str(report_file)],
+                         capture_output=True, text=True, env=env)
+    assert res.returncode == 0, res.stderr
+    outputs = dict(line.split("=", 1) for line in gh_out.read_text(encoding="utf-8").splitlines())
+    report = json.loads(proc.stdout)
+    assert int(outputs["critical"]) == report["summary"]["critical"] > 0
+    assert int(outputs["total"]) == sum(report["summary"].values())
+    summary = gh_sum.read_text(encoding="utf-8")
+    assert "agentsec-kit skill audit" in summary and "risky-plugin" in summary
+    assert FAKE not in summary
+
+
+def test_action_manifest_is_consistent():
+    import re as _re
+    text = (ROOT / "action.yml").read_text(encoding="utf-8")
+    assert "skills/skill-supply-chain-audit/scripts/audit_skill.py" in text
+    assert "tools/action_summary.py" in text
+    # untrusted inputs reach shell only through env vars
+    for block in _re.findall(r"run: \|\n((?:\s{8}.*\n?)+)", text):
+        assert "${{" not in block

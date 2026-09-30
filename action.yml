@@ -1,0 +1,98 @@
+name: "agentsec-kit skill audit"
+description: "Audit Agent Skills, Claude Code plugins and marketplaces for supply-chain risks: hooks, scripts, MCP servers, hidden text. SARIF + job summary."
+author: "Howard Hsieh"
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  path:
+    description: "Folder to audit, relative to the repository root (a skill, a plugin, a marketplace repo, or '.')."
+    required: false
+    default: "."
+  fail-on:
+    description: "Fail the step when a finding is at or above this severity: critical, high, medium, low, or none."
+    required: false
+    default: "high"
+  baseline:
+    description: "Optional JSON file of accepted findings (create it with audit_skill.py scan --write-baseline)."
+    required: false
+    default: ""
+  sarif:
+    description: "Where to write the SARIF report."
+    required: false
+    default: "agentsec-kit.sarif"
+  upload-sarif:
+    description: "Upload the SARIF file to GitHub code scanning (needs 'security-events: write' and code scanning enabled)."
+    required: false
+    default: "false"
+
+outputs:
+  findings-total:
+    description: "Number of findings after the baseline."
+    value: ${{ steps.scan.outputs.total }}
+  critical:
+    description: "Number of critical findings."
+    value: ${{ steps.scan.outputs.critical }}
+  high:
+    description: "Number of high findings."
+    value: ${{ steps.scan.outputs.high }}
+  sarif-file:
+    description: "Path of the SARIF report."
+    value: ${{ inputs.sarif }}
+
+runs:
+  using: composite
+  steps:
+    - name: Audit
+      id: scan
+      shell: bash
+      env:
+        AUDIT_PATH: ${{ inputs.path }}
+        AUDIT_BASELINE: ${{ inputs.baseline }}
+        AUDIT_SARIF: ${{ inputs.sarif }}
+        AUDIT_SCRIPT: ${{ github.action_path }}/skills/skill-supply-chain-audit/scripts/audit_skill.py
+        AUDIT_SUMMARY: ${{ github.action_path }}/tools/action_summary.py
+      run: |
+        set -uo pipefail
+        PY="$(command -v python3 || command -v python)"
+        args=(scan "$AUDIT_PATH" --json --sarif "$AUDIT_SARIF" --sarif-uri-prefix "$AUDIT_PATH")
+        if [ -n "$AUDIT_BASELINE" ]; then args+=(--baseline "$AUDIT_BASELINE"); fi
+        report="${RUNNER_TEMP:-/tmp}/agentsec-kit-report.json"
+        "$PY" "$AUDIT_SCRIPT" "${args[@]}" > "$report"
+        status=$?
+        if [ "$status" -ne 0 ] && [ "$status" -ne 2 ]; then
+          echo "::error::agentsec-kit audit failed to run (exit $status)"; exit "$status"
+        fi
+        "$PY" "$AUDIT_SUMMARY" "$report"
+
+    - name: Upload SARIF
+      if: ${{ inputs.upload-sarif == 'true' }}
+      uses: github/codeql-action/upload-sarif@v3
+      continue-on-error: true
+      with:
+        sarif_file: ${{ inputs.sarif }}
+        category: agentsec-kit
+
+    - name: Enforce threshold
+      shell: bash
+      env:
+        FAIL_ON: ${{ inputs.fail-on }}
+        N_CRITICAL: ${{ steps.scan.outputs.critical }}
+        N_HIGH: ${{ steps.scan.outputs.high }}
+        N_MEDIUM: ${{ steps.scan.outputs.medium }}
+        N_LOW: ${{ steps.scan.outputs.low }}
+      run: |
+        set -u
+        case "$FAIL_ON" in
+          none) exit 0 ;;
+          critical) n=$N_CRITICAL ;;
+          high) n=$((N_CRITICAL + N_HIGH)) ;;
+          medium) n=$((N_CRITICAL + N_HIGH + N_MEDIUM)) ;;
+          low) n=$((N_CRITICAL + N_HIGH + N_MEDIUM + N_LOW)) ;;
+          *) echo "::error::fail-on must be critical, high, medium, low or none"; exit 1 ;;
+        esac
+        if [ "$n" -gt 0 ]; then
+          echo "::error::agentsec-kit found $n finding(s) at or above '$FAIL_ON'. See the job summary."
+          exit 1
+        fi
