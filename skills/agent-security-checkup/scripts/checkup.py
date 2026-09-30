@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 TOOL = "agent-security-checkup"
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 HERE = Path(__file__).resolve().parent
 SKILLS_ROOT = HERE.parent.parent
 REPO_URL = "https://github.com/howardhsieh/agent-security-skills"
@@ -60,6 +60,7 @@ MAX_PACKAGES = 200
 OWN_SKILLS = {"agent-config-audit", "agent-incident-response", "agent-security-checkup", "agent-threat-model",
               "agent-trace-detection", "mcp-server-security-review", "skill-supply-chain-audit"}
 OWN_PLUGIN = "agentsec-kit"
+OWN_GUARD_PLUGIN = "agentsec-guard"
 TOKEN_SCRUB = re.compile(
     r"(?:sk-ant-[A-Za-z0-9_-]{8,}|sk-(?:proj-)?[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}"
     r"|xox[abposr]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|glpat-[A-Za-z0-9_-]{16,}|npm_[A-Za-z0-9]{30,})")
@@ -136,15 +137,22 @@ def discover_packages(home: Path, project: Path) -> List[Dict[str, Any]]:
 
 
 def own_prefix(pkg: Dict[str, Any]) -> Optional[str]:
-    """Return the baseline path prefix if this package is agentsec-kit itself, else None."""
+    """Return the baseline path prefix if this package is agentsec-kit or agentsec-guard, else None.
+
+    Only reviewed lines listed in the shipped baselines are suppressed, so a
+    package that merely borrows the name still gets every other finding.
+    """
     root = Path(pkg["root"])
     manifest = root / ".claude-plugin" / "plugin.json"
     if manifest.is_file():
         try:
-            if json.loads(manifest.read_text(encoding="utf-8")).get("name") == OWN_PLUGIN:
-                return ""
+            name = json.loads(manifest.read_text(encoding="utf-8")).get("name")
         except (OSError, ValueError):
             return None
+        if name == OWN_PLUGIN:
+            return ""
+        if name == OWN_GUARD_PLUGIN:
+            return OWN_GUARD_PLUGIN + "/"
     skill_md = root / "SKILL.md"
     if root.name in OWN_SKILLS and skill_md.is_file():
         try:
@@ -157,12 +165,15 @@ def own_prefix(pkg: Dict[str, Any]) -> Optional[str]:
 
 
 def load_self_baseline() -> set:
-    path = HERE.parent / "assets" / "self-baseline.json"
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return set()
-    return {"%s|%s|%s" % (a.get("id"), a.get("path"), a.get("line_sha256")) for a in data.get("accepted", [])}
+    accepted: set = set()
+    for name in ("self-baseline.json", "self-baseline-guard.json"):
+        path = HERE.parent / "assets" / name
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        accepted |= {"%s|%s|%s" % (a.get("id"), a.get("path"), a.get("line_sha256")) for a in data.get("accepted", [])}
+    return accepted
 
 
 def scan_packages(skillmod: Any, packages: List[Dict[str, Any]], home: Path) -> List[Dict[str, Any]]:

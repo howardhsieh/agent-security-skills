@@ -4,7 +4,7 @@ description: Guides incident response when an AI agent setup may be compromised,
 license: Apache-2.0
 metadata:
   author: howardhsieh
-  version: "0.2.0"
+  version: "0.2.1"
   repository: "https://github.com/howardhsieh/agent-security-skills"
 ---
 

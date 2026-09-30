@@ -4,7 +4,7 @@ description: Reviews MCP server source code for security flaws - tool poisoning 
 license: Apache-2.0
 metadata:
   author: howardhsieh
-  version: "0.2.0"
+  version: "0.2.1"
   repository: https://github.com/howardhsieh/agent-security-skills
 ---
 

@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-09-30
+
+### Fixed
+
+- The checkup no longer lowers the grade when `agentsec-guard` is installed.
+  The guard's own detection patterns (credential paths, download-and-run
+  commands) were reported as risks: the checkup now applies the guard's
+  reviewed baseline, and `agent-config-audit` recognizes the released
+  `guard.py` by SHA-256 (any modified copy is still analyzed). With both
+  plugins installed on a clean setup the grade stays A.
+- The `agentsec-guard` baseline test passes on Windows (`USERPROFILE`).
+
+### Added
+
+- `CODE_OF_CONDUCT.md`.
+
 ## [0.2.0] - 2026-09-30
 
 ### Added
@@ -88,7 +104,8 @@ Claude Code marketplace and as per-skill zips for claude.ai.
 - Evals for each skill under `evals/`, install guide in `docs/install.md`, and
   a security policy.
 
-[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/howardhsieh/agent-security-skills/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/howardhsieh/agent-security-skills/releases/tag/v0.1.0

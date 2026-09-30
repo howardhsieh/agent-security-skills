@@ -42,7 +42,7 @@ included).
 |---|---|---|
 | **Ask your agent** | Seven skills: checkup, supply-chain audit, config audit, threat model, MCP server review, trace detection, incident response | `agentsec-kit` plugin, `npx skills add`, or zips for claude.ai |
 | **Guard at runtime** | Optional hooks that block `curl \| sh`, ask before reading credential stores, and ask before a push or publish right after the agent read web or MCP content | `/plugin install agentsec-guard@agent-security-skills` |
-| **Gate in CI** | A GitHub Action that audits skills, plugins and marketplaces on every pull request, with SARIF for the Security tab and a badge | `uses: howardhsieh/agent-security-skills@v0.2.0` |
+| **Gate in CI** | A GitHub Action that audits skills, plugins and marketplaces on every pull request, with SARIF for the Security tab and a badge | `uses: howardhsieh/agent-security-skills@v0.2.1` |
 
 ## Why
 
@@ -139,7 +139,7 @@ Audit the skills or plugin you publish on every pull request:
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: howardhsieh/agent-security-skills@v0.2.0
+- uses: howardhsieh/agent-security-skills@v0.2.1
   with:
     path: skills        # a skill, a plugin, a marketplace repo, or "."
     fail-on: high
@@ -155,7 +155,7 @@ Auditing a plugin before install:
 
 ```text
 $ python3 skills/skill-supply-chain-audit/scripts/audit_skill.py scan ./pdf-helper-pro
-audit_skill 0.2.0  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
+audit_skill 0.2.1  target=pdf-helper-pro  (3 critical, 10 high, 12 medium, 3 low, 8 info)
 Inventory: 6 files, 1992 bytes; skills: pdf-helper; plugins: pdf-helper-pro; hooks: PostToolUse x1, SessionStart x1, Stop x1; ...
 
 [CRITICAL] SKL021  Downloads and executes remote code

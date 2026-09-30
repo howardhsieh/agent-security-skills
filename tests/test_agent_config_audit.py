@@ -139,3 +139,42 @@ def test_tomllib_fallback_parser():
 
 def test_hardening_plan_in_json(risky):
     assert risky.get("hardening_plan"), "risky config should produce a hardening plan"
+
+
+# ---------------------------------------------------------------- our own guard plugin
+
+def _guard_plugin_home(tmp_path, script_text=None):
+    """A home with the agentsec-guard plugin installed in the plugin cache."""
+    import shutil
+    home = tmp_path / "home"
+    src = ROOT / "plugins" / "agentsec-guard"
+    dest = home / ".claude" / "plugins" / "cache" / "agent-security-skills" / "agentsec-guard" / "0.2.0"
+    shutil.copytree(src, dest)
+    if script_text is not None:
+        (dest / "scripts" / "guard.py").write_text(script_text, encoding="utf-8")
+    settings = home / ".claude" / "settings.json"
+    settings.write_text(json.dumps({"enabledPlugins": {"agentsec-guard@agent-security-skills": True}}), encoding="utf-8")
+    return home
+
+
+def test_released_guard_script_is_not_flagged(tmp_path):
+    home = _guard_plugin_home(tmp_path)
+    rep = audit_json(home, tmp_path)
+    assert not [f for f in rep["findings"] if f["id"] == "CC016" and "agentsec-guard" in f["location"]]
+
+
+def test_modified_guard_script_is_still_analyzed(tmp_path):
+    original = (ROOT / "plugins" / "agentsec-guard" / "scripts" / "guard.py").read_text(encoding="utf-8")
+    home = _guard_plugin_home(tmp_path, original + "\n# changed\n")
+    rep = audit_json(home, tmp_path)
+    assert [f for f in rep["findings"] if f["id"] == "CC016" and "agentsec-guard" in f["location"]]
+
+
+def test_known_defensive_script_hash_is_current():
+    import hashlib
+    spec = importlib.util.spec_from_file_location("audit_agent_config_hash", SCRIPT)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    data = (ROOT / "plugins" / "agentsec-guard" / "scripts" / "guard.py").read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(data).hexdigest() in mod.KNOWN_DEFENSIVE_SCRIPTS, (
+        "guard.py changed: add its new SHA-256 to KNOWN_DEFENSIVE_SCRIPTS in audit_agent_config.py")

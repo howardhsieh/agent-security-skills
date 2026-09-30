@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import hashlib
 import json
 import math
 import os
@@ -36,7 +37,7 @@ except ImportError:  # pragma: no cover - exercised via monkeypatch in tests
     tomllib = None  # type: ignore
 
 TOOL = "audit_agent_config.py"
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 DOCS_VERIFIED = "2026-09-29"
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
 RANK = {s: i for i, s in enumerate(SEVERITIES)}
@@ -966,6 +967,25 @@ RISK_PATTERNS = {
 _RISK_RES = {k: [re.compile(p) for p in v] for k, v in RISK_PATTERNS.items()}
 
 
+# Released defensive hook scripts whose own detection patterns (download-and-run,
+# credential paths) would otherwise match the referenced-script check. Only
+# these exact files are exempt (SHA-256 of the content with LF line endings);
+# any other script, or any modified copy, is still analyzed.
+KNOWN_DEFENSIVE_SCRIPTS = {
+    "b06ca514e12000298dba01ce8ee990ac9eda9685abaf9ba0ce4102483cc95bbb": "agentsec-guard 0.2.0 scripts/guard.py",    "c257ad2588717f62322eced82f429852a67f65ee7bb4430c8764ca17ff56a64a": "agentsec-guard 0.2.1 scripts/guard.py",
+}
+
+
+def known_defensive_script(path: Path) -> Optional[str]:
+    try:
+        if path.stat().st_size > MAX_FILE_BYTES:
+            return None
+        data = path.read_bytes()
+    except OSError:
+        return None
+    return KNOWN_DEFENSIVE_SCRIPTS.get(hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest())
+
+
 def risk_categories(text: str) -> List[str]:
     return [cat for cat, pats in _RISK_RES.items() if any(p.search(text) for p in pats)]
 
@@ -1622,6 +1642,8 @@ class Audit:
             # Referenced scripts: flag only fetch/exec or outbound network. Credential paths alone are
             # common in defensive hooks (e.g. a PreToolUse guard that blocks reads of .env).
             for script in referenced_scripts(command, src, self):
+                if known_defensive_script(script):
+                    continue
                 script_cats = risk_categories(_read(script) or "")
                 if "download-and-execute" in script_cats or "network" in script_cats:
                     cats, where = script_cats, " (in referenced script %s)" % self.disp(script)

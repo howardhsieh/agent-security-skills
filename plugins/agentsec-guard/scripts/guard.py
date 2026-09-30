@@ -37,7 +37,7 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 NAME = "agentsec-guard"
 MAX_STATE_SESSIONS = 200
 STATE_TTL = 7 * 24 * 3600
